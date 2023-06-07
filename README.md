@@ -1,16 +1,18 @@
-# proyectounitycoderjjg
-## Proyecto para curso Unity Coderhouse
+# ProjectSE_UnityCoderhouse
+## Proyecto para curso "Desarrollo de videojuegos en Unity" Coderhouse
 
-### Log de desarrollo - Juego de sigilo(nombre aun no decidido)
+### Log de desarrollo - ProjectSE
 
 **Descripcion general del proyecto**
 
-Juego de sigilo-thriller cuyo objetivo es recolectar distintos objetos y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador encontrara zonas en las cuales
-refugiarse y objetos que lo ayudaran en su objetivo.
+Juego de sigilo-thriller cuyo objetivo es recolectar distintos objetos y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos personajes, 
+los cuales poseen habilidades unicas y distintas uno del otro. El exito del escape depende del uso correcto de cada habilidad y personaje en la situacion pertinente
 
 #### Bitacora de desarrollo
 
 **Resumen primera entrega**
+
+Link a repositorio de primera entrega: https://github.com/Jemuth/proyectounitycoderjjg
 
 ![](https://github.com/Jemuth/proyectounitycoderjjg/blob/main/gifs/entrega1.gif)
 
@@ -52,3 +54,10 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 1. Implementacion de sistema rudimentaria de stamina con su respectivo temporizador.
 2. Creacion de script de movimiento basico.
 3. Creacion de script para luz con deteccion de movimiento
+
+**Desarrollo entrega final**
+
+**07/06/2023**
+
+1. Creacion de nuevo repositorio para replanteamiento del juego acorde a las exigencias de la entrega final
+2. Se incorpora arte conceptual / Game cover art
