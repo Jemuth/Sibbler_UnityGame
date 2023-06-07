@@ -5,6 +5,10 @@
 
 **Descripcion general del proyecto**
 
+**Project SE**
+
+![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/GDDCoverArt.jpg)
+
 Juego de sigilo-thriller cuyo objetivo es recolectar distintos objetos y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos personajes, 
 los cuales poseen habilidades unicas y distintas uno del otro. El exito del escape depende del uso correcto de cada habilidad y personaje en la situacion pertinente
 
