@@ -69,3 +69,4 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 **08/06/2023**
 
 1. Creacion de mesh de testeo estilo low poly(direccion de arte del juego)
+2. Actualizacion gitignore
