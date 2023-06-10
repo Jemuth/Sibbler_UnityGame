@@ -75,3 +75,7 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 
 1. Creacion mesh P1 con sus respectivos UV
 2. Implementacion de texturas
+
+**10/06/2023**
+
+1.Personaje P1 completado con sus respectivas texturas
