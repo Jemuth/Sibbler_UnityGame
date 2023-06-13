@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   maxStamina: 1000
-  speed: 5
+  speedMultiplier: 5

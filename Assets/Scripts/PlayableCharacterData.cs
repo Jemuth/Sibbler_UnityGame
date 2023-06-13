@@ -6,6 +6,6 @@ using UnityEngine;
 public class PlayableCharacterData : ScriptableObject
 {
     public float maxStamina;
-    public float speed;
+    public float speedMultiplier;
 }
 

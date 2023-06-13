@@ -85,3 +85,8 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 1. Modelo y texturas completas de personaje P1 y P2 
 2. Creacion de script de movimiento y barra de stamina con atributos(velocidad, stamina maxima) otorgados con scriptable objects
 3. Incorporacion de elemento UI de barra de stamina
+
+**13/06/2023
+
+1. Implementacion de scripts de movimiento y respectivas animaciones(Idle-Walk)
+

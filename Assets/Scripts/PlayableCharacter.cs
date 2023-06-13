@@ -7,10 +7,16 @@ public class PlayableCharacter : GameCharacter
     [SerializeField] private float playerRotationSpeed = 35;
     [SerializeField] private Animator m_animator;
     [SerializeField] private PlayableCharacterData m_data;
-   
+    private float m_baseSpeed = 1;
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        Cursor.visible = !hasFocus;
+        Cursor.lockState = hasFocus ? CursorLockMode.None : CursorLockMode.Confined;
+    }
     public virtual float GetCurrentSpeed()
     {
-        return m_data.speed;
+        return m_data.speedMultiplier;
     }
 
     protected Vector3 GetPlayerMovementInput()
@@ -30,7 +36,8 @@ public class PlayableCharacter : GameCharacter
     {
         var transform1 = transform;
         transform1.position += (p_inputMovement.z * transform1.forward + p_inputMovement.x * transform1.right) *
-                               (m_data.speed * Time.deltaTime);
+                               (m_baseSpeed * m_data.speedMultiplier * Time.deltaTime);
+        m_animator.SetFloat("Speed", p_inputMovement.magnitude);
     }
     private void RotatePlayer(Vector2 p_scrollDelta)
     {
@@ -45,6 +52,8 @@ public class PlayableCharacter : GameCharacter
         if (Input.GetKey(KeyCode.LeftShift))
         {
             StaminaBar.instance.UseStamina(2);
+            
         }
+      
     }
 }
