@@ -896,8 +896,11 @@ MonoBehaviour:
   m_data: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}
   acceleration: 2
   deceleration: 2
+  maxWalkVelocity: 0.5
+  maxRunVelocity: 2
   m_staminaStatus: {fileID: 2022383817}
   runEnabled: 0
+  m_baseSpeed: 0.5
 --- !u!1001 &1907752872
 PrefabInstance:
   m_ObjectHideFlags: 0

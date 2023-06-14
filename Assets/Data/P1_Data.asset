@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee68be4043ceec4ab5cb70615929d50, type: 3}
   m_Name: P1_Data
   m_EditorClassIdentifier: 
-  maxStamina: 700
+  maxStamina: 2000
   speedMultiplier: 2
