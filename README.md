@@ -89,4 +89,5 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 **13/06/2023
 
 1. Implementacion de scripts de movimiento y respectivas animaciones(Idle-Walk)
+2. Implementacion de animacion de correr y barra de stamina asociada
 

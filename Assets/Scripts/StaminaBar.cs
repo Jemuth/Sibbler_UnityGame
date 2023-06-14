@@ -13,7 +13,7 @@ public class StaminaBar : MonoBehaviour
     [SerializeField] private PlayableCharacterData m_data;
     private Coroutine regen;
     public static StaminaBar instance;
-
+    
     private void Awake()
     {
         instance = this;
@@ -57,4 +57,5 @@ public class StaminaBar : MonoBehaviour
         }
         regen = null;
     }
+    
 }

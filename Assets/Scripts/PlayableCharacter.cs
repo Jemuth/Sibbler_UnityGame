@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayableCharacter : GameCharacter
 {
-    [SerializeField] private float playerRotationSpeed = 35;
+    [SerializeField] private float playerRotationSpeed = 60;
     [SerializeField] private Animator m_animator;
     [SerializeField] private PlayableCharacterData m_data;
     private float m_baseSpeed = 1;
+    public StaminaBar m_staminaStatus;
+    public bool runEnabled;
+
 
     private void OnApplicationFocus(bool hasFocus)
     {
@@ -43,17 +46,39 @@ public class PlayableCharacter : GameCharacter
     {
         transform.Rotate(Vector3.up, p_scrollDelta.x * playerRotationSpeed * Time.deltaTime, Space.Self);
     }
+    private void RunCooldown()
+    {
+        if(m_staminaStatus.currentStamina <= 0)
+        {
+            runEnabled = false;
+        } else
+        {
+            runEnabled = true;
+        }
+    }
+    private void Running()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetAxis("Vertical") > 0 && runEnabled == true)
+        {
+            m_animator.SetFloat("Speed", 2f);
+            m_baseSpeed = 2.5f;
+            StaminaBar.instance.UseStamina(2);
+            // stamina -= (staminaRate * 2) * Time.deltaTime;
+
+        }
+        else
+        {
+            m_baseSpeed = 1f;
+        }
+    }
+    
     void Update()
     {
         MovePlayer(GetPlayerMovementInput());
         RotatePlayer(GetPlayerRotation());
+        Running();
+        RunCooldown();
         // Moving();
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            StaminaBar.instance.UseStamina(2);
-            
-        }
-      
     }
 }
