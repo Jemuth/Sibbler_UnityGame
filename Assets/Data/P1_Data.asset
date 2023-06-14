@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: P1_Data
   m_EditorClassIdentifier: 
   maxStamina: 2000
-  speedMultiplier: 2
+  speedMultiplier: 2.5

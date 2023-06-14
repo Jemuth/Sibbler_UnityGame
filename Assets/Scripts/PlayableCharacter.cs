@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayableCharacter : GameCharacter
 {
@@ -12,18 +13,17 @@ public class PlayableCharacter : GameCharacter
     // Velocity and acceleration parameters
     float velocityZ = 0.0f;
     float velocityX = 0.0f;
-    public float acceleration = 2f;
-    public float deceleration = 2f;
-    public float maxWalkVelocity = 0.5f;
-    public float maxRunVelocity = 2f;
+    private float acceleration = 2f;
+    private float deceleration = 3f;
+    private float maxRunVelocity = 2f;
+    private float maxWalkVelocity = 0.5f;
     int VelocityZHash;
     int VelocityXHash;
 
     // Run and stamina bar parameters
     public StaminaBar m_staminaStatus;
     public bool runEnabled;
-    [SerializeField] private float m_baseWalkSpeed = 0.5f;
-    [SerializeField] private float m_baseRunSpeed = 2f;
+    
 
     private void Start()
     {
@@ -43,29 +43,47 @@ public class PlayableCharacter : GameCharacter
 
     public void PlayerMovement()
     {
-        var totalWalkSpeed = m_baseWalkSpeed * m_data.speedMultiplier * Time.deltaTime;
-        var totalRunSpeed = m_baseRunSpeed * m_data.speedMultiplier * Time.deltaTime;
+
+        var totalWalkSpeed = (0.5f * m_data.speedMultiplier) * Time.deltaTime;
+        var totalRunSpeed = (2f + m_data.speedMultiplier) * Time.deltaTime;
 
         // Walking
-
+        // Forward and back
         if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
+            
             transform.position += transform.forward * totalWalkSpeed;
         }
         if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W))
         {
+            
             transform.position -= transform.forward * totalWalkSpeed;
         }
+        // If forward and back are pressed at the same time, just walk forward
+        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W))
+        {
+            
+            transform.position += transform.forward * totalWalkSpeed;
+        }
+        // Left and right
         if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
         {
+            
             transform.position += transform.right * totalWalkSpeed;
         }
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
+            
             transform.position -= transform.right * totalWalkSpeed;
         }
-        // Walking
-
+        // If left and right are pressed at the same time, just walk right
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+        {
+            
+            transform.position += transform.right * totalWalkSpeed;
+        }
+        // Running
+        // Run forward and backward
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.S))
         {
             transform.position += transform.forward * totalRunSpeed;
@@ -74,6 +92,12 @@ public class PlayableCharacter : GameCharacter
         {
             transform.position -= transform.forward * totalRunSpeed;
         }
+        // If forward and back are pressed at the same time, just run forward
+        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.position += transform.forward * totalRunSpeed;
+        }
+        // Run left and right
         if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.A))
         {
             transform.position += transform.right * totalRunSpeed;
@@ -82,9 +106,12 @@ public class PlayableCharacter : GameCharacter
         {
             transform.position -= transform.right * totalRunSpeed;
         }
-
+        // If left and right are pressed at the same time, just run right
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.position += transform.right * totalRunSpeed;
+        }
     }
-
     private void ChangeVelocity(bool forwardPressed, bool rightPressed, bool leftPressed, bool backPressed, bool runPressed, float currentMaxVelocity)
     {
         // Increase velocity according to inputs
@@ -108,6 +135,16 @@ public class PlayableCharacter : GameCharacter
         {
             velocityZ += Time.deltaTime * deceleration;
         }
+        // If forward and back are pressed at the same time while walking, just walk forward
+        if (backPressed && forwardPressed && !runPressed)
+        {
+            velocityZ = 0.5f;
+        }
+        // If forward and back are pressed at the same time while running, just run forward
+        if (backPressed && forwardPressed && runPressed)
+        {
+            velocityZ = 2f;
+        }
         // Increase velocityX going right
         if (rightPressed && velocityX < currentMaxVelocity)
         {
@@ -127,6 +164,16 @@ public class PlayableCharacter : GameCharacter
         if (!rightPressed && velocityX > 0.0f)
         {
             velocityX -= Time.deltaTime * deceleration;
+        }
+        // If left and right are pressed at the same time while walking, just walk right
+        if (leftPressed && rightPressed && !runPressed)
+        {
+            velocityX = 0.5f;
+        }
+        // If left and right are pressed at the same time while running, just run right
+        if (leftPressed && rightPressed && runPressed)
+        {
+            velocityX = 2f;
         }
 
     }
