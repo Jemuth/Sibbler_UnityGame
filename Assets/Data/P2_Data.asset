@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ee68be4043ceec4ab5cb70615929d50, type: 3}
-  m_Name: P1_Data
+  m_Name: P2_Data
   m_EditorClassIdentifier: 
-  maxStamina: 2000
-  speedMultiplier: 2.5
-  acceleration: 12
+  maxStamina: 7000
+  speedMultiplier: 1.5
+  acceleration: 9

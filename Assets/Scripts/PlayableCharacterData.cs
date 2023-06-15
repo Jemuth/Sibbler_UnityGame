@@ -7,5 +7,6 @@ public class PlayableCharacterData : ScriptableObject
 {
     public float maxStamina;
     public float speedMultiplier;
+    public float acceleration;
 }
 

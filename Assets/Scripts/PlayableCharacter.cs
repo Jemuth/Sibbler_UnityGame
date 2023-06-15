@@ -21,15 +21,34 @@ public class PlayableCharacter : GameCharacter
     int VelocityXHash;
 
     // Run and stamina bar parameters
+    [SerializeField] private float maxWalkSpeed;
+    [SerializeField] private float maxRunSpeed;
+    private float initialSpeed;
+    [SerializeField] private float currentWalkSpeed;
+    [SerializeField] private float currentRunSpeed;
+    private bool isWalking;
+    private bool isRunning;
+    private float accelerationTime;
     public StaminaBar m_staminaStatus;
     public bool runEnabled;
-    
 
+    private void Awake()
+    {
+        animator.SetBool("isTired", false);
+    }
     private void Start()
     {
+        //Animator parameters
         animator = GetComponent<Animator>();
         VelocityZHash = Animator.StringToHash("Velocity Z");
         VelocityXHash = Animator.StringToHash("Velocity X");
+        
+
+        //Speed parameters
+        initialSpeed = 0;
+        accelerationTime = m_data.acceleration;
+        maxWalkSpeed = (0.5f * m_data.speedMultiplier);
+        maxRunSpeed = (2f + m_data.speedMultiplier);
     }
     private void OnApplicationFocus(bool hasFocus)
     {
@@ -44,73 +63,94 @@ public class PlayableCharacter : GameCharacter
     // Actual player movement
     public void PlayerMovement()
     {
+        // Speed Lerp
 
-        var totalWalkSpeed = (0.5f * m_data.speedMultiplier) * Time.deltaTime;
-        var totalRunSpeed = (2f + m_data.speedMultiplier) * Time.deltaTime;
-
+        float movementInputZ = Input.GetAxisRaw("Vertical");
+        float movementInputX = Input.GetAxisRaw("Horizontal");
+        //Walk Lerp
+        if ((movementInputZ != 0 || movementInputX !=0) && !Input.GetKey(KeyCode.LeftShift))
+        {
+            isWalking = true;
+            currentWalkSpeed = Mathf.Lerp(currentWalkSpeed, maxWalkSpeed, accelerationTime * Time.deltaTime);
+        } else
+        {
+            isWalking = false;
+            currentWalkSpeed = 0f;
+        }
+        //Run Lerp
+        if ((movementInputZ != 0 || movementInputX != 0) && Input.GetKey(KeyCode.LeftShift))
+        {
+            isRunning = true;
+            currentRunSpeed = Mathf.Lerp(currentRunSpeed, maxRunSpeed, accelerationTime * Time.deltaTime);
+        }
+        else
+        {
+            isRunning = false;
+            currentRunSpeed = 0f;
+        }
         // Walking
         // Forward and back
         if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             
-            transform.position += transform.forward * totalWalkSpeed;
+            transform.position += transform.forward * currentWalkSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W))
         {
             
-            transform.position -= transform.forward * totalWalkSpeed;
+            transform.position -= transform.forward * currentWalkSpeed * Time.deltaTime;
         }
         // If forward and back are pressed at the same time, just walk forward
         if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W))
         {
             
-            transform.position += transform.forward * totalWalkSpeed;
+            transform.position += transform.forward * currentWalkSpeed * Time.deltaTime;
         }
         // Left and right
         if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
         {
             
-            transform.position += transform.right * totalWalkSpeed;
+            transform.position += transform.right * currentWalkSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
         {
             
-            transform.position -= transform.right * totalWalkSpeed;
+            transform.position -= transform.right * currentWalkSpeed * Time.deltaTime;
         }
         // If left and right are pressed at the same time, just walk right
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
         {
             
-            transform.position += transform.right * totalWalkSpeed;
+            transform.position += transform.right * currentWalkSpeed * Time.deltaTime;
         }
         // Running
         // Run forward and backward
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.S) && runEnabled)
         {
-            transform.position += transform.forward * totalRunSpeed;
-        }
+            transform.position += transform.forward * currentRunSpeed * Time.deltaTime;
+        } 
         if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.W) && runEnabled)
         {
-            transform.position -= transform.forward * totalRunSpeed;
+            transform.position -= transform.forward * currentRunSpeed * Time.deltaTime;
         }
         // If forward and back are pressed at the same time, just run forward
         if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && runEnabled)
         {
-            transform.position += transform.forward * totalRunSpeed;
+            transform.position += transform.forward * currentRunSpeed * Time.deltaTime;
         }
         // Run left and right
         if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.A) && runEnabled)
         {
-            transform.position += transform.right * totalRunSpeed;
+            transform.position += transform.right * currentRunSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.D) && runEnabled)
         {
-            transform.position -= transform.right * totalRunSpeed;
+            transform.position -= transform.right * currentRunSpeed * Time.deltaTime;
         }
         // If left and right are pressed at the same time, just run right
         if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift) && runEnabled)
         {
-            transform.position += transform.right * totalRunSpeed;
+            transform.position += transform.right * currentRunSpeed * Time.deltaTime;
         }
     }
     // Only animation velocity!
@@ -302,12 +342,16 @@ public class PlayableCharacter : GameCharacter
     }
     private void RunningAnimation()
     {
-        if (runEnabled)
+        if ((!Input.GetKey(KeyCode.A) || !Input.GetKey(KeyCode.W) || !Input.GetKey(KeyCode.S) || !Input.GetKey(KeyCode.D)) && Input.GetKey(KeyCode.LeftShift) && !runEnabled)
         {
-            maxRunVelocity = 2f;
+            maxRunVelocity = 0f;
+            animator.SetBool("isTired", true);
+            
         } else
         {
-            maxRunVelocity = 0.5f;
+            maxRunVelocity = 2f;
+            animator.SetBool("isTired", false);
+
         }
     }
     private void UseStamina()
