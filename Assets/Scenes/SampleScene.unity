@@ -503,10 +503,8 @@ MonoBehaviour:
   m_data: {fileID: 11400000, guid: 9c4b67ac6db312d458a1fc64ee8953a2, type: 2}
   maxWalkSpeed: 0
   maxRunSpeed: 0
-  currentWalkSpeed: 0
-  currentRunSpeed: 0
+  currentSpeed: 0
   m_staminaStatus: {fileID: 2022383817}
-  runEnabled: 0
 --- !u!1 &571208350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,6 +1629,11 @@ PrefabInstance:
       propertyPath: m_staminaStatus
       value: 
       objectReference: {fileID: 2022383817}
+    - target: {fileID: 342123107778278032, guid: 4f25ce578da2a97469a7f356a62eda8d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 611960645124542119, guid: 4f25ce578da2a97469a7f356a62eda8d,
         type: 3}
       propertyPath: m_Name
@@ -1639,7 +1642,7 @@ PrefabInstance:
     - target: {fileID: 611960645124542119, guid: 4f25ce578da2a97469a7f356a62eda8d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 342123106796278666, guid: 4f25ce578da2a97469a7f356a62eda8d, type: 3}
@@ -1675,7 +1678,5 @@ MonoBehaviour:
   m_data: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}
   maxWalkSpeed: 0
   maxRunSpeed: 0
-  currentWalkSpeed: 0
-  currentRunSpeed: 0
+  currentSpeed: 0
   m_staminaStatus: {fileID: 2022383817}
-  runEnabled: 0

@@ -6,7 +6,10 @@ using UnityEngine;
 public class PlayableCharacterData : ScriptableObject
 {
     public float maxStamina;
-    public float speedMultiplier;
+    public float walkSpeed;
+    public float runSpeed;
     public float acceleration;
+    public float deceleration;
+    public float regenTime;
 }
 
