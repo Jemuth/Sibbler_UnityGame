@@ -9,8 +9,7 @@ public class PlayableCharacter : GameCharacter
     [SerializeField] private float playerRotationSpeed = 60;
     [SerializeField] private Animator animator;
     [SerializeField] private PlayableCharacterData m_data;
-
-    // Velocity and acceleration parameters
+    // Velocity and acceleration parameters for animation
     float velocityZ = 0.0f;
     float velocityX = 0.0f;
     private float acceleration = 4f;
@@ -19,73 +18,70 @@ public class PlayableCharacter : GameCharacter
     private float maxWalkVelocity = 0.5f;
     int VelocityZHash;
     int VelocityXHash;
-
-    // Run and stamina bar parameters
+    private float currentMaxVelocity;
+    bool forwardPressed;
+    bool backPressed;
+    bool leftPressed;
+    bool rightPressed;
+    // Run button for both input and animation
+    bool runPressed;
+    // Movement speed parameters
     [SerializeField] private float maxWalkSpeed;
     [SerializeField] private float maxRunSpeed;
-    private float initialSpeed;
     [SerializeField] private float currentWalkSpeed;
     [SerializeField] private float currentRunSpeed;
-    private bool isWalking;
-    private bool isRunning;
     private float accelerationTime;
-    public StaminaBar m_staminaStatus;
-    public bool runEnabled;
-
+    // Stamina bar and run bool for enabling runnning
+    [SerializeField] private StaminaBar m_staminaStatus;
+    private bool runEnabled;
     private void Awake()
     {
         animator.SetBool("isTired", false);
     }
     private void Start()
     {
-        //Animator parameters
+        SpeedParameters();
+        VelocityHash();
+    }
+    private void VelocityHash()
+    {
         animator = GetComponent<Animator>();
         VelocityZHash = Animator.StringToHash("Velocity Z");
         VelocityXHash = Animator.StringToHash("Velocity X");
-        
-
-        //Speed parameters
-        initialSpeed = 0;
-        accelerationTime = m_data.acceleration;
-        maxWalkSpeed = (0.5f * m_data.speedMultiplier);
-        maxRunSpeed = (2f + m_data.speedMultiplier);
     }
     private void OnApplicationFocus(bool hasFocus)
     {
         Cursor.visible = !hasFocus;
         Cursor.lockState = hasFocus ? CursorLockMode.None : CursorLockMode.Confined;
     }
-    public virtual float GetCurrentSpeed()
-    {
-        return m_data.speedMultiplier;
-    }
-    
     // Actual player movement
+    private void SpeedParameters()
+    {
+        accelerationTime = m_data.acceleration;
+        maxWalkSpeed = (0.5f * m_data.speedMultiplier);
+        maxRunSpeed = (2f + m_data.speedMultiplier);
+    }
+
     public void PlayerMovement()
     {
-        // Speed Lerp
-
+        //Speed for walking and running
         float movementInputZ = Input.GetAxisRaw("Vertical");
         float movementInputX = Input.GetAxisRaw("Horizontal");
         //Walk Lerp
-        if ((movementInputZ != 0 || movementInputX !=0) && !Input.GetKey(KeyCode.LeftShift))
+        if ((movementInputZ != 0 || movementInputX !=0) && !runPressed)
         {
-            isWalking = true;
             currentWalkSpeed = Mathf.Lerp(currentWalkSpeed, maxWalkSpeed, accelerationTime * Time.deltaTime);
         } else
         {
-            isWalking = false;
             currentWalkSpeed = 0f;
         }
         //Run Lerp
-        if ((movementInputZ != 0 || movementInputX != 0) && Input.GetKey(KeyCode.LeftShift))
+        if ((movementInputZ != 0 || movementInputX != 0) && runPressed)
         {
-            isRunning = true;
             currentRunSpeed = Mathf.Lerp(currentRunSpeed, maxRunSpeed, accelerationTime * Time.deltaTime);
         }
         else
         {
-            isRunning = false;
             currentRunSpeed = 0f;
         }
         // Walking
@@ -154,7 +150,24 @@ public class PlayableCharacter : GameCharacter
         }
     }
     // Only animation velocity!
-    private void ChangeVelocity(bool forwardPressed, bool rightPressed, bool leftPressed, bool backPressed, bool runPressed, float currentMaxVelocity)
+    // Setting animation inputs
+    private void AnimationInputs()
+    {
+        forwardPressed = Input.GetAxis("Vertical") > 0;
+        backPressed = Input.GetAxis("Vertical") < 0;
+        leftPressed = Input.GetAxis("Horizontal") < 0;
+        rightPressed = Input.GetAxis("Horizontal") > 0;
+        runPressed = Input.GetKey(KeyCode.LeftShift);
+    }
+    // Change velocity and string to hash
+    private void CurrentVelocity()
+    {
+        currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
+        animator.SetFloat(VelocityZHash, velocityZ);
+        animator.SetFloat(VelocityXHash, velocityX);
+    }
+    
+    private void ChangeVelocity()
     {
         // Increase velocity according to inputs
         // Increase velocityZ going forward
@@ -219,9 +232,8 @@ public class PlayableCharacter : GameCharacter
         }
 
     }
-
     // Only applies for animation!
-    private void LockOrResetVelocity(bool forwardPressed, bool rightPressed, bool leftPressed, bool backPressed, bool runPressed, float currentMaxVelocity)
+    private void LockOrResetVelocity()
     {
          // Reset velocities
         // Reset velocityZ
@@ -342,7 +354,7 @@ public class PlayableCharacter : GameCharacter
     }
     private void RunningAnimation()
     {
-        if ((!Input.GetKey(KeyCode.A) || !Input.GetKey(KeyCode.W) || !Input.GetKey(KeyCode.S) || !Input.GetKey(KeyCode.D)) && Input.GetKey(KeyCode.LeftShift) && !runEnabled)
+        if (runPressed && !runEnabled)
         {
             maxRunVelocity = 0f;
             animator.SetBool("isTired", true);
@@ -356,7 +368,7 @@ public class PlayableCharacter : GameCharacter
     }
     private void UseStamina()
     {
-        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && runEnabled == true && Input.GetKey(KeyCode.LeftShift))
+        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && runEnabled == true && runPressed)
         {
             
             StaminaBar.instance.UseStamina(2);
@@ -366,17 +378,11 @@ public class PlayableCharacter : GameCharacter
 
     void Update()
     {
-        // Animation and inputs
-        bool forwardPressed = Input.GetKey(KeyCode.W);
-        bool backPressed = Input.GetKey(KeyCode.S);
-        bool leftPressed = Input.GetKey(KeyCode.A);
-        bool rightPressed = Input.GetKey(KeyCode.D);
-        bool runPressed = Input.GetKey(KeyCode.LeftShift);
-        float currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
-        animator.SetFloat(VelocityZHash, velocityZ);
-        animator.SetFloat(VelocityXHash, velocityX);
-        ChangeVelocity(forwardPressed, rightPressed, leftPressed, backPressed, runPressed, currentMaxVelocity);
-        LockOrResetVelocity(forwardPressed, rightPressed, leftPressed, backPressed, runPressed, currentMaxVelocity);
+        // Animation inputs and velocity changes
+        AnimationInputs();
+        CurrentVelocity();
+        ChangeVelocity();
+        LockOrResetVelocity();
         RunningAnimation();
         // Player movement
         PlayerMovement();
