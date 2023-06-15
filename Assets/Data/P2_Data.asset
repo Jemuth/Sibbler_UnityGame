@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee68be4043ceec4ab5cb70615929d50, type: 3}
   m_Name: P2_Data
   m_EditorClassIdentifier: 
-  maxStamina: 600
+  maxStamina: 500
   walkSpeed: 1.5
   runSpeed: 3
   acceleration: 0.1
   deceleration: 0.1
+  regenTime: 0
