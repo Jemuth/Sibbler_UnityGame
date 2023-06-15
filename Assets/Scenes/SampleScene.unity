@@ -1180,8 +1180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6c6b3fb591c8f498629ec5e33defe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_name: 
-  m_id: 
+  m_name: P1_Character
+  m_id: P1
   playerRotationSpeed: 60
   animator: {fileID: 1520017362}
   m_data: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}

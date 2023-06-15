@@ -13,7 +13,7 @@ public class PlayableCharacter : GameCharacter
     // Velocity and acceleration parameters
     float velocityZ = 0.0f;
     float velocityX = 0.0f;
-    private float acceleration = 2f;
+    private float acceleration = 4f;
     private float deceleration = 3f;
     private float maxRunVelocity = 2f;
     private float maxWalkVelocity = 0.5f;
@@ -40,7 +40,8 @@ public class PlayableCharacter : GameCharacter
     {
         return m_data.speedMultiplier;
     }
-
+    
+    // Actual player movement
     public void PlayerMovement()
     {
 
@@ -84,34 +85,35 @@ public class PlayableCharacter : GameCharacter
         }
         // Running
         // Run forward and backward
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.S) && runEnabled)
         {
             transform.position += transform.forward * totalRunSpeed;
         }
-        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.W) && runEnabled)
         {
             transform.position -= transform.forward * totalRunSpeed;
         }
         // If forward and back are pressed at the same time, just run forward
-        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && runEnabled)
         {
             transform.position += transform.forward * totalRunSpeed;
         }
         // Run left and right
-        if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.A) && runEnabled)
         {
             transform.position += transform.right * totalRunSpeed;
         }
-        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.D) && runEnabled)
         {
             transform.position -= transform.right * totalRunSpeed;
         }
         // If left and right are pressed at the same time, just run right
-        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftShift) && runEnabled)
         {
             transform.position += transform.right * totalRunSpeed;
         }
     }
+    // Only animation velocity!
     private void ChangeVelocity(bool forwardPressed, bool rightPressed, bool leftPressed, bool backPressed, bool runPressed, float currentMaxVelocity)
     {
         // Increase velocity according to inputs
@@ -178,6 +180,7 @@ public class PlayableCharacter : GameCharacter
 
     }
 
+    // Only applies for animation!
     private void LockOrResetVelocity(bool forwardPressed, bool rightPressed, bool leftPressed, bool backPressed, bool runPressed, float currentMaxVelocity)
     {
          // Reset velocities
@@ -297,9 +300,19 @@ public class PlayableCharacter : GameCharacter
             runEnabled = true;
         }
     }
+    private void RunningAnimation()
+    {
+        if (runEnabled)
+        {
+            maxRunVelocity = 2f;
+        } else
+        {
+            maxRunVelocity = 0.5f;
+        }
+    }
     private void UseStamina()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && runEnabled == true && velocityZ > 0)
+        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && runEnabled == true && Input.GetKey(KeyCode.LeftShift))
         {
             
             StaminaBar.instance.UseStamina(2);
@@ -309,6 +322,7 @@ public class PlayableCharacter : GameCharacter
 
     void Update()
     {
+        // Animation and inputs
         bool forwardPressed = Input.GetKey(KeyCode.W);
         bool backPressed = Input.GetKey(KeyCode.S);
         bool leftPressed = Input.GetKey(KeyCode.A);
@@ -317,13 +331,15 @@ public class PlayableCharacter : GameCharacter
         float currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
         animator.SetFloat(VelocityZHash, velocityZ);
         animator.SetFloat(VelocityXHash, velocityX);
-
-        PlayerMovement();
         ChangeVelocity(forwardPressed, rightPressed, leftPressed, backPressed, runPressed, currentMaxVelocity);
         LockOrResetVelocity(forwardPressed, rightPressed, leftPressed, backPressed, runPressed, currentMaxVelocity);
+        RunningAnimation();
+        // Player movement
+        PlayerMovement();
         RotatePlayer(GetPlayerRotation());
-        //UseStamina();
-        //RunCooldown();
+        // Stamina bar
+        UseStamina();
+        RunCooldown();
 
     }
 }
