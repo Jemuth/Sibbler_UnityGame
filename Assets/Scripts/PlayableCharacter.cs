@@ -39,6 +39,8 @@ public class PlayableCharacter : GameCharacter
     // Stamina bar and run bool for enabling runnning
     [SerializeField] private StaminaBar m_staminaStatus;
     private bool runEnabled;
+    // Bool for changing character
+    private bool canChange;
     private void Awake()
     {
         animator.SetBool("isTired", false);
@@ -48,6 +50,23 @@ public class PlayableCharacter : GameCharacter
         currentSpeed = initialSpeed;
         SpeedParameters();
         VelocityHash();
+        canChange = true;
+    }
+    // Enable change only when speed equals 0 to avoid moving in placing
+    public void CanChange()
+    {
+        if ((Input.GetAxis("Vertical") ==0 || Input.GetAxis("Horizontal") == 0) && currentSpeed == 0)
+        {
+            canChange = true;
+            GameManager.instance.ChangeEnabler(canChange);
+            GameManager.instance.CameraChange(canChange);
+
+        } else
+        {
+            canChange = false;
+            GameManager.instance.ChangeEnabler(canChange);
+            GameManager.instance.CameraChange(canChange);
+        }
     }
     private void VelocityHash()
     {
@@ -344,6 +363,7 @@ public class PlayableCharacter : GameCharacter
         // Stamina bar
         UseStamina();
         RunCooldown();
-
+        // Character changer
+        CanChange();
     }
 }

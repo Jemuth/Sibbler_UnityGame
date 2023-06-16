@@ -97,3 +97,9 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 2. Animaciones relativas a movimiento con ciclo actualizado de animaciones(idle,walk,run,tired)
 3. Aplicacion de Lerp y otras funciones y clases para mejorar fluidez de movimiento
 
+**15/06/2023
+
+1. Implementacion de cambio de personaje completada(se arreglan fallas de transicion)
+2. Implementacion de sistema de camera follow para ambos personajes
+3. Se añade sistema de camaras Cinemachine con su respectivo script para cambio de camara segun personaje seleccionado
+
