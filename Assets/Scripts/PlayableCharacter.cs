@@ -37,12 +37,15 @@ public class PlayableCharacter : GameCharacter
     private float accelerationPercentage;
     private float decelerationPercentage;
     // Stamina bar and run bool for enabling runnning
-    [SerializeField] private StaminaBar m_staminaStatus;
+    [SerializeField] private StaminaManagerP1 m_staminaStatusP1;
+    [SerializeField] private StaminaManagerP2 m_staminaStatusP2;
     private bool runEnabled;
+    private int currentCharacter;
     // Bool for changing character
     private bool canChange;
     private void Awake()
     {
+        currentCharacter = m_data.currentPlayer;
         animator.SetBool("isTired", false);
     }
     private void Start()
@@ -314,9 +317,20 @@ public class PlayableCharacter : GameCharacter
         }
     }
     // Stamina and run settings
-    private void RunCooldown()
+    private void RunCooldownP1()
     {
-        if (m_staminaStatus.currentStamina < m_data.maxStamina * 5 / 100)
+        if (m_staminaStatusP1.currentStamina < m_data.maxStamina * 5 / 100)
+        {
+            runEnabled = false;
+        }
+        else
+        {
+            runEnabled = true;
+        }
+    }
+    private void RunCooldownP2()
+    {
+        if (m_staminaStatusP2.currentStamina < m_data.maxStamina * 5 / 100)
         {
             runEnabled = false;
         }
@@ -341,11 +355,12 @@ public class PlayableCharacter : GameCharacter
     }
     private void UseStamina()
     {
-        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && runEnabled == true && runPressed)
+        if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && runEnabled == true && runPressed && currentCharacter == 0)
         {
-            
-            StaminaBar.instance.UseStamina(2);
-
+            StaminaManagerP1.instance.UseStamina(2);
+        } else if(((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && runEnabled == true && runPressed && currentCharacter == 1))
+        {
+            StaminaManagerP2.instance.UseStamina(2);
         }
     }
     void Update()
@@ -362,7 +377,8 @@ public class PlayableCharacter : GameCharacter
         RotatePlayer(GetPlayerRotation());
         // Stamina bar
         UseStamina();
-        RunCooldown();
+        RunCooldownP1();
+        RunCooldownP2();
         // Character changer
         CanChange();
     }

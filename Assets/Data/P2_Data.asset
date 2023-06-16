@@ -18,3 +18,4 @@ MonoBehaviour:
   acceleration: 0.1
   deceleration: 0.1
   regenTime: 0
+  currentPlayer: 1

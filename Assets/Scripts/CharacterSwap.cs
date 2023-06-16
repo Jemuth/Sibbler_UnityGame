@@ -13,6 +13,7 @@ public class CharacterSwap : MonoBehaviour
         EnablePlayer(possibleCharacters[0]);
         DisablePlayer(possibleCharacters[1]);
     }
+    // Determine current player
     public void ChangeEnabled(bool changeEnabled)
     {
         canChange = changeEnabled;
