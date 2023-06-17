@@ -248,6 +248,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_player: {fileID: 178892441}
   m_camera: {fileID: 987413575}
+  m_runPressed1: {fileID: 3376280083187436907}
+  m_runPressed2: {fileID: 3376280083404293468}
+  m_useStaminaChecker1: {fileID: 3376280083187436907}
+  m_useStaminaChecker2: {fileID: 3376280083404293468}
 --- !u!1 &207896175
 GameObject:
   m_ObjectHideFlags: 0

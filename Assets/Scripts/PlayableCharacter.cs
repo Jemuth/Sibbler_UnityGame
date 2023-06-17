@@ -55,7 +55,7 @@ public class PlayableCharacter : GameCharacter
     // Enable change only when speed equals 0 to avoid moving in placing
     public void CanChange()
     {
-        if ((Input.GetAxis("Vertical") ==0 || Input.GetAxis("Horizontal") == 0) && currentSpeed == 0)
+        if ((Input.GetAxis("Vertical") ==0 || Input.GetAxis("Horizontal") == 0) && currentSpeed == 0 &&!runPressed)
         {
             canChange = true;
             GameManager.instance.ChangeEnabler(canChange);
@@ -314,6 +314,11 @@ public class PlayableCharacter : GameCharacter
         }
     }
     // Stamina and run settings
+    public void RunPressed(bool p_runPressed)
+    {
+        runPressed = p_runPressed;
+        GameManager.instance.IsRunPressed(p_runPressed);
+    }
     private void RunCooldown()
     {
         if (m_staminaStatus.currentStamina < m_data.maxStamina * 5 / 100)
@@ -361,7 +366,8 @@ public class PlayableCharacter : GameCharacter
         // Stamina bar
         CanUseStamina();
         RunCooldown();
-        // Character changer
+        RunPressed(runPressed);
+        // Character changer only if standing still with no inputs
         CanChange();
     }
 }

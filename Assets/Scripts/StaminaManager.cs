@@ -6,11 +6,12 @@ public class StaminaManager : MonoBehaviour
 {
     public Slider staminaBar;
     private int maxStamina;
-    public float currentStamina;
+    public int currentStamina;
     public bool canUseStamina;
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     [SerializeField] private PlayableCharacterData m_data;
     private Coroutine regen;
+    private bool runPressed;
 
     private void Awake()
     {
@@ -22,9 +23,13 @@ public class StaminaManager : MonoBehaviour
         staminaBar.maxValue = maxStamina;
         staminaBar.value = maxStamina;
     }
+    public void RunPressed(bool p_runPressed)
+    {
+        runPressed = p_runPressed;
+    }
     public void UseStamina()
     {
-        if (currentStamina - 2 >= 0 && canUseStamina && Input.GetKey(KeyCode.LeftShift))
+        if (currentStamina - 2 >= 0 && canUseStamina && runPressed)
         {
             currentStamina -= 2;
             staminaBar.value = currentStamina;
@@ -37,7 +42,6 @@ public class StaminaManager : MonoBehaviour
         else
         {
             canUseStamina = false;
-            Debug.Log("Not enough stamina");
         }
     }
 
