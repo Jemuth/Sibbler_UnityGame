@@ -13,7 +13,7 @@ public class CharacterSwap : MonoBehaviour
         EnablePlayer(possibleCharacters[0]);
         DisablePlayer(possibleCharacters[1]);
     }
-    // Determine current player
+    // Determine if can change
     public void ChangeEnabled(bool changeEnabled)
     {
         canChange = changeEnabled;
@@ -22,17 +22,18 @@ public class CharacterSwap : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && canChange)
         {
-            if(p1Active)
+            if (p1Active)
             {
                 DisablePlayer(possibleCharacters[0]);
                 EnablePlayer(possibleCharacters[1]);
                 p1Active = false;
                 Debug.Log("Player 2 Active");
-            } else
+            }
+            else
             {
                 DisablePlayer(possibleCharacters[1]);
                 EnablePlayer(possibleCharacters[0]);
-                p1Active=true;
+                p1Active = true;
                 Debug.Log("Player 1 Active");
             }
         }
@@ -43,7 +44,7 @@ public class CharacterSwap : MonoBehaviour
     }
     private void DisablePlayer(Transform player)
     {
-       player.GetComponent<PlayableCharacter>().enabled = false;
+        player.GetComponent<PlayableCharacter>().enabled = false;
     }
     private void Update()
     {

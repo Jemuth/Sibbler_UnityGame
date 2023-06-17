@@ -1,22 +1,18 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StaminaManagerP2 : MonoBehaviour
+public class StaminaManager : MonoBehaviour
 {
     public Slider staminaBar;
-
     private float maxStamina;
     public float currentStamina;
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     [SerializeField] private PlayableCharacterData m_data;
     private Coroutine regen;
-    public static StaminaManagerP2 instance;
 
     private void Awake()
     {
-        instance = this;
         maxStamina = m_data.maxStamina;
     }
     void Start()
