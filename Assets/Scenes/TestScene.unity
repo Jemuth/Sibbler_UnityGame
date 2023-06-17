@@ -248,7 +248,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_player: {fileID: 178892441}
   m_camera: {fileID: 987413575}
-  m_stamina: {fileID: 3376280083187436907}
 --- !u!1 &207896175
 GameObject:
   m_ObjectHideFlags: 0
@@ -3660,6 +3659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staminaBar: {fileID: 3376280083187436903}
   currentStamina: 0
+  canUseStamina: 0
   m_data: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}
 --- !u!1 &3376280083284915858
 GameObject:
@@ -3842,6 +3842,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staminaBar: {fileID: 3376280083404293467}
   currentStamina: 0
+  canUseStamina: 0
   m_data: {fileID: 11400000, guid: 9c4b67ac6db312d458a1fc64ee8953a2, type: 2}
 --- !u!1 &3614653200904339412
 GameObject:

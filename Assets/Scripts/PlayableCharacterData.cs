@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "PlayableCharacterData")]
 public class PlayableCharacterData : ScriptableObject
 {
-    public float maxStamina;
+    public int maxStamina;
     public float walkSpeed;
     public float runSpeed;
     public float acceleration;

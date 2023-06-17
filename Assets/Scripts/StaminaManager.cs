@@ -5,8 +5,9 @@ using UnityEngine.UI;
 public class StaminaManager : MonoBehaviour
 {
     public Slider staminaBar;
-    private float maxStamina;
+    private int maxStamina;
     public float currentStamina;
+    public bool canUseStamina;
     private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
     [SerializeField] private PlayableCharacterData m_data;
     private Coroutine regen;
@@ -21,12 +22,11 @@ public class StaminaManager : MonoBehaviour
         staminaBar.maxValue = maxStamina;
         staminaBar.value = maxStamina;
     }
-
-    public void UseStamina(int amount)
+    public void UseStamina()
     {
-        if (currentStamina - amount >= 0)
+        if (currentStamina - 2 >= 0 && canUseStamina && Input.GetKey(KeyCode.LeftShift))
         {
-            currentStamina -= amount;
+            currentStamina -= 2;
             staminaBar.value = currentStamina;
 
             if (regen != null)
@@ -36,6 +36,7 @@ public class StaminaManager : MonoBehaviour
         }
         else
         {
+            canUseStamina = false;
             Debug.Log("Not enough stamina");
         }
     }
@@ -53,4 +54,9 @@ public class StaminaManager : MonoBehaviour
         }
         regen = null;
     }
+    private void Update()
+    {
+        UseStamina();
+    }
 }
+

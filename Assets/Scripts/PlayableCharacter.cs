@@ -339,11 +339,11 @@ public class PlayableCharacter : GameCharacter
 
         }
     }
-    private void UseStamina()
+    public void CanUseStamina()
     {
         if ((Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) && runEnabled == true && runPressed)
         {
-                GameManager.instance.CheckStamina(2);    
+            m_staminaStatus.canUseStamina = true;
         }
     }
     void Update()
@@ -359,7 +359,7 @@ public class PlayableCharacter : GameCharacter
         Move(GetMovementInput());
         RotatePlayer(GetPlayerRotation());
         // Stamina bar
-        UseStamina();
+        CanUseStamina();
         RunCooldown();
         // Character changer
         CanChange();
