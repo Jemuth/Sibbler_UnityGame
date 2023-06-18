@@ -27,14 +27,12 @@ public class CharacterSwap : MonoBehaviour
                 DisablePlayer(possibleCharacters[0]);
                 EnablePlayer(possibleCharacters[1]);
                 p1Active = false;
-                Debug.Log("Player 2 Active");
             }
             else
             {
                 DisablePlayer(possibleCharacters[1]);
                 EnablePlayer(possibleCharacters[0]);
                 p1Active = true;
-                Debug.Log("Player 1 Active");
             }
         }
     }

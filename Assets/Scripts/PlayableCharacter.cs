@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PlayableCharacter : GameCharacter
 {
     [SerializeField] private float playerRotationSpeed = 60;
-    [SerializeField] private Animator animator;
-    [SerializeField] private PlayableCharacterData m_data;
+    [SerializeField] public Animator animator;
+    [SerializeField] public PlayableCharacterData m_data;
     // Velocity and acceleration parameters for animation only
     float velocityZ = 0.0f;
     float velocityX = 0.0f;
@@ -19,6 +22,7 @@ public class PlayableCharacter : GameCharacter
     int VelocityZHash;
     int VelocityXHash;
     private float currentMaxVelocity;
+    // Buttons for animation, skills and movement
     bool forwardPressed;
     bool backPressed;
     bool leftPressed;
@@ -41,9 +45,14 @@ public class PlayableCharacter : GameCharacter
     private bool runEnabled;
     // Bool for changing characters
     private bool canChange;
+    // For skills animation
+    bool canMove;
+    bool skillPressed;
+    private bool canUseSkill;
+    private bool isAtDistance;
     private void Awake()
     {
-        animator.SetBool("isTired", false);
+        animator.SetBool("isTired", false);  
     }
     private void Start()
     {
@@ -51,6 +60,8 @@ public class PlayableCharacter : GameCharacter
         SpeedParameters();
         VelocityHash();
         canChange = true;
+        canMove = true;
+        canUseSkill = true;
     }
     // Enable change only when speed equals 0 to avoid moving in placing
     public void CanChange()
@@ -119,11 +130,13 @@ public class PlayableCharacter : GameCharacter
         var l_vertical = Input.GetAxis("Vertical");
         return new Vector3(l_horizontal, 0, l_vertical).normalized;
     }
-    private void Move(Vector3 p_inputMovement)
+    public void Move(Vector3 p_inputMovement)
     {
+        if(canMove) { 
         var transform1 = transform;
         transform1.position += (p_inputMovement.z * transform1.forward + p_inputMovement.x * transform1.right) *
                                (currentSpeed * Time.deltaTime);
+        }
     }
     private Vector3 GetPlayerRotation()
     {
@@ -145,6 +158,11 @@ public class PlayableCharacter : GameCharacter
         leftPressed = Input.GetAxis("Horizontal") < 0;
         rightPressed = Input.GetAxis("Horizontal") > 0;
         runPressed = Input.GetKey(KeyCode.LeftShift);
+
+        if(Input.GetKey(KeyCode.B))
+        {
+            Debug.Log("HI");
+        }
     }
     // Change velocity if run button pressed. String to hash velocity values
     private void CurrentVelocity()
@@ -351,6 +369,52 @@ public class PlayableCharacter : GameCharacter
             m_staminaStatus.canUseStamina = true;
         }
     }
+    // Skill usage and cooldowns
+    // Skill input
+    private void UseSkill()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && canUseSkill == true)
+        {
+            skillPressed = true;
+            StartCoroutine(AbilityCooldown());
+        }
+        else
+        {
+            skillPressed = false;
+        }
+    }
+    // Skills and skills animation cooldowns
+    private IEnumerator WaitToMove()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(1);
+        canMove = true;
+    }
+    private IEnumerator AbilityCooldown()
+    {
+        canUseSkill = false;
+        yield return new WaitForSeconds(3);
+        canUseSkill = true;
+    }
+    // Specific skills
+    // P1 Skills
+    private void UseBat()
+    {
+        if (m_data.isBatUser == true && isAtDistance && skillPressed)
+        {
+            Debug.Log("Bonk");
+            animator.SetBool("isUsingSkill", true);
+            StartCoroutine(WaitToMove());
+        }
+        else
+        {
+            animator.SetBool("isUsingSkill", false);
+        }
+    }
+    public void DistanceChecker(bool m_canUseBat)
+    {
+        isAtDistance = m_canUseBat;
+    }
     void Update()
     {
         // Animation inputs and velocity changes
@@ -369,5 +433,9 @@ public class PlayableCharacter : GameCharacter
         RunPressed(runPressed);
         // Character changer only if standing still with no inputs
         CanChange();
+        //Skills
+        UseSkill();
+        UseBat();
+        DistanceChecker(isAtDistance);
     }
 }

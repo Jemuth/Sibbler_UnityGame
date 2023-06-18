@@ -11,5 +11,6 @@ public class PlayableCharacterData : ScriptableObject
     public float acceleration;
     public float deceleration;
     public float regenTime;
+    public bool isBatUser;
 }
 
