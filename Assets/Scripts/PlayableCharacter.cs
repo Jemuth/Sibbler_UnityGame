@@ -48,8 +48,8 @@ public class PlayableCharacter : GameCharacter
     // For skills animation
     bool canMove;
     bool skillPressed;
-    private bool canUseSkill;
-    private bool isAtDistance;
+    bool canUseSkill;
+    bool isAtDistance;
     private void Awake()
     {
         animator.SetBool("isTired", false);  
@@ -62,6 +62,7 @@ public class PlayableCharacter : GameCharacter
         canChange = true;
         canMove = true;
         canUseSkill = true;
+        // skillPressed = true;
     }
     // Enable change only when speed equals 0 to avoid moving in placing
     public void CanChange()
@@ -159,9 +160,16 @@ public class PlayableCharacter : GameCharacter
         rightPressed = Input.GetAxis("Horizontal") > 0;
         runPressed = Input.GetKey(KeyCode.LeftShift);
 
-        if(Input.GetKey(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.E) && canUseSkill)
         {
-            Debug.Log("HI");
+            skillPressed = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && !canUseSkill)
+        {
+            Debug.Log("Cannot use that now!");
+        }else
+        {
+            skillPressed = false;
         }
     }
     // Change velocity if run button pressed. String to hash velocity values
@@ -370,19 +378,6 @@ public class PlayableCharacter : GameCharacter
         }
     }
     // Skill usage and cooldowns
-    // Skill input
-    private void UseSkill()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && canUseSkill == true)
-        {
-            skillPressed = true;
-            StartCoroutine(AbilityCooldown());
-        }
-        else
-        {
-            skillPressed = false;
-        }
-    }
     // Skills and skills animation cooldowns
     private IEnumerator WaitToMove()
     {
@@ -396,24 +391,25 @@ public class PlayableCharacter : GameCharacter
         yield return new WaitForSeconds(3);
         canUseSkill = true;
     }
-    // Specific skills
-    // P1 Skills
-    private void UseBat()
+     //Specific skills
+     //P1 Skills
+    public void DistanceChecker(bool m_canUseBat)
     {
-        if (m_data.isBatUser == true && isAtDistance && skillPressed)
+        isAtDistance = m_canUseBat;
+    }
+    public void UseBat()
+    {
+        if (m_data.isBatUser && isAtDistance && skillPressed)  
         {
             Debug.Log("Bonk");
             animator.SetBool("isUsingSkill", true);
+            StartCoroutine(AbilityCooldown());
             StartCoroutine(WaitToMove());
         }
         else
         {
             animator.SetBool("isUsingSkill", false);
         }
-    }
-    public void DistanceChecker(bool m_canUseBat)
-    {
-        isAtDistance = m_canUseBat;
     }
     void Update()
     {
@@ -434,8 +430,6 @@ public class PlayableCharacter : GameCharacter
         // Character changer only if standing still with no inputs
         CanChange();
         //Skills
-        UseSkill();
         UseBat();
-        DistanceChecker(isAtDistance);
     }
 }
