@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayableCharacter : GameCharacter
 {
@@ -97,19 +99,30 @@ public class PlayableCharacter : GameCharacter
         // Parameters from scriptable object
         accelerationTime = m_data.acceleration;
         decelerationTime = m_data.deceleration;
-        maxWalkSpeed = m_data.walkSpeed;
-        maxRunSpeed = m_data.runSpeed;
+
         // Lerp duration
         elapsedAcceleration += Time.deltaTime;
         accelerationPercentage = elapsedAcceleration / accelerationTime;
         elapsedDeceleration += Time.deltaTime;
         decelerationPercentage = elapsedDeceleration / decelerationTime;
+        
     }
     private void SpeedLerp()
     {
         //Speed Lerp for walking and running
         float movementInputZ = Input.GetAxis("Vertical");
         float movementInputX = Input.GetAxis("Horizontal");
+        
+        if (movementInputZ < 0)
+        {
+            maxWalkSpeed = (m_data.walkSpeed * 50) / 100;
+            maxRunSpeed = (m_data.runSpeed * 50) / 100;
+        } else
+        {
+            maxWalkSpeed = m_data.walkSpeed;
+            maxRunSpeed = m_data.runSpeed;
+        }
+
         if ((movementInputZ != 0 || movementInputX !=0) && !runPressed)
         {
             currentSpeed = Mathf.Lerp(currentSpeed, maxWalkSpeed, accelerationPercentage);
@@ -120,7 +133,7 @@ public class PlayableCharacter : GameCharacter
         {
             currentSpeed = Mathf.Lerp(currentSpeed, initialSpeed, decelerationPercentage);
         }
-        if (currentSpeed < 0.1f) 
+        if (currentSpeed < 0.05f) 
         {
             currentSpeed = initialSpeed;
         }
@@ -145,7 +158,6 @@ public class PlayableCharacter : GameCharacter
         var l_mouseY = Input.GetAxis("Mouse Y");
         return new Vector2(l_mouseX, l_mouseY);
     }
-
     private void RotatePlayer(Vector2 p_scrollDelta)
     {
         transform.Rotate(Vector3.up, p_scrollDelta.x * playerRotationSpeed * Time.deltaTime, Space.Self);
@@ -283,6 +295,7 @@ public class PlayableCharacter : GameCharacter
         {
             velocityZ = -currentMaxVelocity;
         }
+
         // Decelerate to walk speed
         else if (backPressed && velocityZ < -currentMaxVelocity)
         {
@@ -406,7 +419,11 @@ public class PlayableCharacter : GameCharacter
             StartCoroutine(AbilityCooldown());
             StartCoroutine(WaitToMove());
         }
-        else
+        else if (m_data.isBatUser && !isAtDistance && skillPressed)
+        {
+            Debug.Log("I need to be behind a creature!");
+            
+        } else
         {
             animator.SetBool("isUsingSkill", false);
         }
