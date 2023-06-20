@@ -11,10 +11,15 @@ public class Player1 : PlayableCharacter
     private bool skillPressed;
     private bool canUseSkill;
     private bool isAtDistance;
+    // Inventory
+    [SerializeField] private UI_Inventory uiInventory;
+    private Inventory inventory;
     void Start()
     {
        
         canUseSkill = true;
+        inventory = new Inventory();
+        uiInventory.SetInventory(inventory);
 
     }
     // Skill usage and cooldowns
