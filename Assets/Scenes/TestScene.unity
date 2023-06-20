@@ -187,7 +187,7 @@ MonoBehaviour:
   m_camera: {fileID: 987413575}
   m_runPressed1: {fileID: 3376280083187436907}
   m_runPressed2: {fileID: 3376280083404293468}
-  m_checkHit: {fileID: 6041902711312699532}
+  m_checkHit: {fileID: 6041902711312699534}
 --- !u!1 &207896175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,7 +1034,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 987413569}
   m_LocalRotation: {x: 0.1266656, y: 0, z: 0, w: 0.9919455}
-  m_LocalPosition: {x: -1.3901, y: 1.1898813, z: -3.4395766}
+  m_LocalPosition: {x: -0.889, y: 1.3740928, z: -3.6527514}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2001,7 +2001,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450653289376310}
   - component: {fileID: 5866666021497712716}
-  - component: {fileID: 5866666021497712718}
+  - component: {fileID: 5866666021497712717}
   m_Layer: 0
   m_Name: P2
   m_TagString: Untagged
@@ -2035,8 +2035,8 @@ GameObject:
   m_Component:
   - component: {fileID: 376343406973979377}
   - component: {fileID: 6041902711312699531}
-  - component: {fileID: 6041902711312699532}
   - component: {fileID: 6041902711312699533}
+  - component: {fileID: 6041902711312699534}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -3826,7 +3826,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5866666021497712718
+--- !u!114 &5866666021497712717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3835,7 +3835,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 919132149573234828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d83e4704ada474744a44c7afbdb3aacf, type: 3}
+  m_Script: {fileID: 11500000, guid: a6c7a3aff50b65e429748548bad76b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: 
@@ -3843,10 +3843,9 @@ MonoBehaviour:
   playerRotationSpeed: 60
   animator: {fileID: 5866666021497712716}
   m_data: {fileID: 11400000, guid: 9c4b67ac6db312d458a1fc64ee8953a2, type: 2}
-  maxWalkSpeed: 0
-  maxRunSpeed: 0
-  currentSpeed: 0
+  runPressed: 0
   m_staminaStatus: {fileID: 3376280083404293468}
+  canMove: 0
 --- !u!4 &5901452235388319925
 Transform:
   m_ObjectHideFlags: 0
@@ -3948,27 +3947,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6041902711312699532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041135227739492427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d83e4704ada474744a44c7afbdb3aacf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_name: 
-  m_id: 
-  playerRotationSpeed: 60
-  animator: {fileID: 6041902711312699531}
-  m_data: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}
-  maxWalkSpeed: 0
-  maxRunSpeed: 0
-  currentSpeed: 0
-  m_staminaStatus: {fileID: 3376280083187436907}
 --- !u!54 &6041902711312699533
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3985,6 +3963,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &6041902711312699534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041135227739492427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d97b520fff5cf64a8e988d5c19f3234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: 
+  m_id: 
+  playerRotationSpeed: 60
+  animator: {fileID: 6041902711312699531}
+  m_data: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}
+  runPressed: 0
+  m_staminaStatus: {fileID: 3376280083187436907}
+  canMove: 0
+  m_batAnimation: {fileID: 6041902711312699531}
+  m_checkBatUser: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}
 --- !u!1 &6136935971066100054
 GameObject:
   m_ObjectHideFlags: 0

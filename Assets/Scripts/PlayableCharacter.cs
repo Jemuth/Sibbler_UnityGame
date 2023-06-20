@@ -9,32 +9,32 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEngine.Rendering.DebugUI;
 
-public class PlayableCharacter : GameCharacter
+public abstract class PlayableCharacter : GameCharacter
 {
     [SerializeField] private float playerRotationSpeed = 60;
-    [SerializeField] public Animator animator;
-    [SerializeField] public PlayableCharacterData m_data;
+    [SerializeField] private Animator animator;
+    [SerializeField] private PlayableCharacterData m_data;
     // Velocity and acceleration parameters for animation only
-    float velocityZ = 0.0f;
-    float velocityX = 0.0f;
+    private float velocityZ = 0.0f;
+    private float velocityX = 0.0f;
     private float acceleration = 4f;
     private float deceleration = 3f;
     private float maxRunVelocity = 2f;
     private float maxWalkVelocity = 0.5f;
-    int VelocityZHash;
-    int VelocityXHash;
+    private int VelocityZHash;
+    private int VelocityXHash;
     private float currentMaxVelocity;
     // Buttons for animation, skills and movement
-    bool forwardPressed;
-    bool backPressed;
-    bool leftPressed;
-    bool rightPressed;
+    private bool forwardPressed;
+    private bool backPressed;
+    private bool leftPressed;
+    private bool rightPressed;
     // Run button for both input and animation
-    bool runPressed;
+    public bool runPressed;
     // Movement speed parameters
-    [SerializeField] private float maxWalkSpeed;
-    [SerializeField] private float maxRunSpeed;
-    [SerializeField] private float currentSpeed;
+    private float maxWalkSpeed;
+    private float maxRunSpeed;
+    private  float currentSpeed;
     private float accelerationTime;
     private float decelerationTime;
     private float initialSpeed = 0;
@@ -45,26 +45,23 @@ public class PlayableCharacter : GameCharacter
     // Stamina bar and run bool for enabling runnning
     [SerializeField] private StaminaManager m_staminaStatus;
     private bool runEnabled;
+    public bool canMove;
     // Bool for changing characters
     private bool canChange;
-    // For skills animation
-    bool canMove;
-    bool skillPressed;
-    bool canUseSkill;
-    bool isAtDistance;
-    private void Awake()
+    
+    void Awake()
     {
-        animator.SetBool("isTired", false);  
-    }
-    private void Start()
-    {
-        currentSpeed = initialSpeed;
         SpeedParameters();
         VelocityHash();
+        SetInitialParameters();
+    }
+    // Start parameters
+    public void SetInitialParameters()
+    {
+        currentSpeed = initialSpeed;
         canChange = true;
         canMove = true;
-        canUseSkill = true;
-        // skillPressed = true;
+        animator.SetBool("isTired", false);
     }
     // Enable change only when speed equals 0 to avoid moving in placing
     public void CanChange()
@@ -82,19 +79,19 @@ public class PlayableCharacter : GameCharacter
             GameManager.instance.CameraChange(canChange);
         }
     }
-    private void VelocityHash()
+    public void VelocityHash()
     {
         animator = GetComponent<Animator>();
         VelocityZHash = Animator.StringToHash("Velocity Z");
         VelocityXHash = Animator.StringToHash("Velocity X");
     }
-    private void OnApplicationFocus(bool hasFocus)
+    public void OnApplicationFocus(bool hasFocus)
     {
         Cursor.visible = !hasFocus;
         Cursor.lockState = hasFocus ? CursorLockMode.None : CursorLockMode.Confined;
     }
     // Player movement, speed and rotation
-    private void SpeedParameters()
+    public void SpeedParameters()
     {
         // Parameters from scriptable object
         accelerationTime = m_data.acceleration;
@@ -107,7 +104,7 @@ public class PlayableCharacter : GameCharacter
         decelerationPercentage = elapsedDeceleration / decelerationTime;
         
     }
-    private void SpeedLerp()
+    public void SpeedLerp()
     {
         //Speed Lerp for walking and running
         float movementInputZ = Input.GetAxis("Vertical");
@@ -138,7 +135,7 @@ public class PlayableCharacter : GameCharacter
             currentSpeed = initialSpeed;
         }
     }
-    private Vector3 GetMovementInput()
+    public Vector3 GetMovementInput()
     {
         var l_horizontal = Input.GetAxis("Horizontal");
         var l_vertical = Input.GetAxis("Vertical");
@@ -152,47 +149,35 @@ public class PlayableCharacter : GameCharacter
                                (currentSpeed * Time.deltaTime);
         }
     }
-    private Vector3 GetPlayerRotation()
+    public Vector3 GetPlayerRotation()
     {
         var l_mouseX = Input.GetAxis("Mouse X");
         var l_mouseY = Input.GetAxis("Mouse Y");
         return new Vector2(l_mouseX, l_mouseY);
     }
-    private void RotatePlayer(Vector2 p_scrollDelta)
+    public void RotatePlayer(Vector2 p_scrollDelta)
     {
         transform.Rotate(Vector3.up, p_scrollDelta.x * playerRotationSpeed * Time.deltaTime, Space.Self);
     }
     // Animation settings
     // Setting animation inputs
-    private void AnimationInputs()
+    public void AnimationInputs()
     {
         forwardPressed = Input.GetAxis("Vertical") > 0;
         backPressed = Input.GetAxis("Vertical") < 0;
         leftPressed = Input.GetAxis("Horizontal") < 0;
         rightPressed = Input.GetAxis("Horizontal") > 0;
         runPressed = Input.GetKey(KeyCode.LeftShift);
-
-        if (Input.GetKeyDown(KeyCode.E) && canUseSkill)
-        {
-            skillPressed = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && !canUseSkill)
-        {
-            Debug.Log("Cannot use that now!");
-        }else
-        {
-            skillPressed = false;
-        }
     }
     // Change velocity if run button pressed. String to hash velocity values
-    private void CurrentVelocity()
+    public void CurrentVelocity()
     {
         currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
         animator.SetFloat(VelocityZHash, velocityZ);
         animator.SetFloat(VelocityXHash, velocityX);
     }
     // Increase or decrease velocity according to inputs
-    private void ChangeVelocity()
+    public void ChangeVelocity()
     {
         // Increase velocityZ going forward
         if (forwardPressed && velocityZ < currentMaxVelocity)
@@ -256,7 +241,7 @@ public class PlayableCharacter : GameCharacter
         }
     }
     // Reset or lock velocities for animation
-    private void LockOrResetVelocity()
+    public void LockOrResetVelocity()
     {
         // Reset velocities
         // Reset velocityZ
@@ -358,7 +343,7 @@ public class PlayableCharacter : GameCharacter
         runPressed = p_runPressed;
         GameManager.instance.IsRunPressed(p_runPressed);
     }
-    private void RunCooldown()
+    public void RunCooldown()
     {
         if (m_staminaStatus.currentStamina < m_data.maxStamina * 5 / 100)
         {
@@ -369,7 +354,7 @@ public class PlayableCharacter : GameCharacter
             runEnabled = true;
         }
     }
-    private void RunningAnimation()
+    public void RunningAnimation()
     {
         if (runPressed && !runEnabled)
         {
@@ -390,45 +375,7 @@ public class PlayableCharacter : GameCharacter
             m_staminaStatus.canUseStamina = true;
         }
     }
-    // Skill usage and cooldowns
-    // Skills and skills animation cooldowns
-    private IEnumerator WaitToMove()
-    {
-        canMove = false;
-        yield return new WaitForSeconds(1);
-        canMove = true;
-    }
-    private IEnumerator AbilityCooldown()
-    {
-        canUseSkill = false;
-        yield return new WaitForSeconds(3);
-        canUseSkill = true;
-    }
-     //Specific skills
-     //P1 Skills
-    public void DistanceChecker(bool m_canUseBat)
-    {
-        isAtDistance = m_canUseBat;
-    }
-    public void UseBat()
-    {
-        if (m_data.isBatUser && isAtDistance && skillPressed)  
-        {
-            Debug.Log("Bonk");
-            animator.SetBool("isUsingSkill", true);
-            StartCoroutine(AbilityCooldown());
-            StartCoroutine(WaitToMove());
-        }
-        else if (m_data.isBatUser && !isAtDistance && skillPressed)
-        {
-            Debug.Log("I need to be behind a creature!");
-            
-        } else
-        {
-            animator.SetBool("isUsingSkill", false);
-        }
-    }
-    void Update()
+    private void Update()
     {
         // Animation inputs and velocity changes
         AnimationInputs();
@@ -440,13 +387,14 @@ public class PlayableCharacter : GameCharacter
         SpeedLerp();
         Move(GetMovementInput());
         RotatePlayer(GetPlayerRotation());
-        // Stamina bar
+        // Stamina bar and run cooldown
         CanUseStamina();
         RunCooldown();
+        // Send value to stamina bar
         RunPressed(runPressed);
         // Character changer only if standing still with no inputs
         CanChange();
-        //Skills
-        UseBat();
+        OnUpdating();
     }
+    protected abstract void OnUpdating();
 }

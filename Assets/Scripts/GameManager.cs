@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CharacterSwap m_player;
     [SerializeField] private CameraSwap m_camera;
     [SerializeField] private StaminaManager m_runPressed1, m_runPressed2;
-    [SerializeField] private PlayableCharacter m_checkHit;
+    [SerializeField] private Player1 m_checkHit;
     private void Awake()
     {
         if (instance != null)
