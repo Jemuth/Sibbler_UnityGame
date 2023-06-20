@@ -37,13 +37,15 @@ public class Player1 : PlayableCharacter
     private IEnumerator WaitToMove()
     {
         canMove = false;
-        yield return new WaitForSeconds(1);
+        canRotate = false;
+        yield return new WaitForSeconds(2.3f);
         canMove = true;
+        canRotate = true;
     }
     private IEnumerator AbilityCooldown()
     {
         canUseSkill = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         canUseSkill = true;
     }
     //Specific skills

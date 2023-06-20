@@ -46,6 +46,7 @@ public abstract class PlayableCharacter : GameCharacter
     [SerializeField] private StaminaManager m_staminaStatus;
     private bool runEnabled;
     public bool canMove;
+    public bool canRotate;
     // Bool for changing characters
     private bool canChange;
     
@@ -61,6 +62,7 @@ public abstract class PlayableCharacter : GameCharacter
         currentSpeed = initialSpeed;
         canChange = true;
         canMove = true;
+        canRotate = true;
         animator.SetBool("isTired", false);
     }
     // Enable change only when speed equals 0 to avoid moving in placing
@@ -153,11 +155,14 @@ public abstract class PlayableCharacter : GameCharacter
     {
         var l_mouseX = Input.GetAxis("Mouse X");
         var l_mouseY = Input.GetAxis("Mouse Y");
-        return new Vector2(l_mouseX, l_mouseY);
+        return new Vector2(l_mouseX, l_mouseY);  
     }
     public void RotatePlayer(Vector2 p_scrollDelta)
     {
+        if (canRotate)
+        {
         transform.Rotate(Vector3.up, p_scrollDelta.x * playerRotationSpeed * Time.deltaTime, Space.Self);
+        }
     }
     // Animation settings
     // Setting animation inputs
