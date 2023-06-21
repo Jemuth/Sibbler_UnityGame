@@ -1,44 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Player1 : PlayableCharacter
 {
     [SerializeField] private Animator m_batAnimation;
     [SerializeField] private PlayableCharacterData m_checkBatUser;
-    public static Player1 Instance { get; private set; }
+    private ItemObject itemObject;
     // For skills animation
     private bool skillPressed;
     private bool canUseSkill;
     private bool isAtDistance;
-    // Inventory
-    [SerializeField] public UI_InventoryP1 uiInventory;
-    public InventoryP1 inventory;
-
+    public bool batUsed;
+   
     void Start()
     {
-        Instance = this;
         canUseSkill = true;
-        inventory = new InventoryP1();
-        uiInventory.SetInventory(inventory);
+    }
+    
+    //Picking items
+    
+    public void OnTriggerEnter(Collider collision)
+    {
+        if(collision.TryGetComponent<ItemObject>(out ItemObject item))
+        {
+            Debug.Log("Hi");
+            item.OnHandlePickupItem();
+            
+        }
     }
     // Skill usage and cooldowns
     // Skills and skills animation cooldowns
 
-    private void OnTriggerEnter(Collider collider) 
-    {
-        ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
-        if(itemWorld != null)
-        {
-            //Touching item
-            Debug.Log("Item touched");
-            inventory.AddItem(itemWorld.GetItem());
-            itemWorld.DestroySelf();
-        }
-    }
-    
+
     private void UseSkill()
     {
         if (Input.GetKeyDown(KeyCode.E) && canUseSkill)
@@ -76,6 +74,7 @@ public class Player1 : PlayableCharacter
     }
     public void UseBat()
     {
+        
         if (m_checkBatUser.isBatUser && isAtDistance && skillPressed)
         {
             Debug.Log("Bonk");
@@ -86,7 +85,6 @@ public class Player1 : PlayableCharacter
         else if (m_checkBatUser.isBatUser && !isAtDistance && skillPressed)
         {
             Debug.Log("I need to be behind a creature!");
-
         }
         else
         {
