@@ -1,26 +1,37 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class UI_Inventory : MonoBehaviour
+public class UI_InventoryP1 : MonoBehaviour
 {
-    private Inventory inventory;
+    private InventoryP1 inventory;
     private Transform itemSlotContainer;
     private Transform itemSlotTemplate;
-
     private void Awake()
     {
         itemSlotContainer = transform.Find("ItemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("ItemSlotTemplate");
     }
-
-    public void SetInventory(Inventory inventory)
+   
+    public void SetInventory(InventoryP1 inventory)
     {
         this.inventory = inventory;
+        inventory.OnItemListChanged += Inventory_OnItemListChanged;
+        RefreshInventoryItems();
+    }
+    private void Inventory_OnItemListChanged(object sender, System.EventArgs e)
+    {
         RefreshInventoryItems();
     }
     private void RefreshInventoryItems()
     {
+        foreach (Transform child in itemSlotContainer)
+        {
+            if (child == itemSlotTemplate) continue;
+            Destroy(child.gameObject);
+        }
         int x = 0;
         int y = 0;
         float itemSlotCellSize = 15f;
@@ -28,7 +39,19 @@ public class UI_Inventory : MonoBehaviour
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
+
+            
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
+            Image image = itemSlotRectTransform.Find("image").GetComponent<Image>();
+            image.sprite = item.GetSprite();
+            TextMeshProUGUI uitext = itemSlotRectTransform.Find("text").GetComponent<TextMeshProUGUI>();
+            if(item.amount > 1)
+            {
+                uitext.SetText(item.amount.ToString());
+            } else
+            {
+                uitext.SetText("");
+            }
             x++;
             if (x > 4)
             {

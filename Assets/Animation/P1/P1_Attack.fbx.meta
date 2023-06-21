@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a742bccd4f0ddb0479f55f52fb4743e9
+guid: e160319ee662a4545a84891013b4f61d
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Baseball Strike
+      name: Attack
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 110
+      lastFrame: 38
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
