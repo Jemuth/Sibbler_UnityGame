@@ -10,7 +10,7 @@ public class Player1 : PlayableCharacter
 {
     [SerializeField] private Animator m_batAnimation;
     [SerializeField] private PlayableCharacterData m_checkBatUser;
-    private ItemObject itemObject;
+
     // For skills animation
     private bool skillPressed;
     private bool canUseSkill;
@@ -21,20 +21,6 @@ public class Player1 : PlayableCharacter
     {
         canUseSkill = true;
     }
-    
-    //Picking items
-    
-    public void OnTriggerEnter(Collider collision)
-    {
-        if(collision.TryGetComponent<ItemObject>(out ItemObject item))
-        {
-            Debug.Log("Hi");
-            item.OnHandlePickupItem();
-            
-        }
-    }
-    // Skill usage and cooldowns
-    // Skills and skills animation cooldowns
 
 
     private void UseSkill()
