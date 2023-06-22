@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
+
 
 public class Player1 : PlayableCharacter
 {

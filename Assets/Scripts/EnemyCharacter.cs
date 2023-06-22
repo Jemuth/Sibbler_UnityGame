@@ -6,12 +6,14 @@ using UnityEngine;
 public class EnemyCharacter : GameCharacter
 {
     [SerializeField] private EnemyCharacterData m_enemyData;
+    [SerializeField] private Animator lookerAnimator;
     private bool isHitable;
     private bool atDistance;
     private bool canBeHit;
 
     private void Start()
     {
+        lookerAnimator.SetBool("MonsterMoving", false);
         isHitable = m_enemyData.isHittable;
     }
     private void OnTriggerEnter(Collider character)
