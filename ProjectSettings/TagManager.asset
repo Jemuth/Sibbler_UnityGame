@@ -9,6 +9,8 @@ TagManager:
   - PickableItem
   - RestartUI
   - Obstacles
+  - P1
+  - P2
   layers:
   - Default
   - TransparentFX

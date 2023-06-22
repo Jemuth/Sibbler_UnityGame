@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraSwap m_camera;
     [SerializeField] private StaminaManager m_runPressed1, m_runPressed2;
     [SerializeField] private Player1 m_checkHit;
+    [SerializeField] private UIManager m_uiManager;
     private void Awake()
     {
         if (instance != null)
@@ -36,6 +37,10 @@ public class GameManager : MonoBehaviour
     public void CheckEnemyDistance(bool m_checkEnemyHit)
     {
         m_checkHit.DistanceChecker(m_checkEnemyHit);
+    }
+    public void CheckDetected(bool m_checkDetected)
+    {
+        m_uiManager.CheckRestart(m_checkDetected);
     }
 
 }
