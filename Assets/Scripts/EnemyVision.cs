@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class EnemyVision : MonoBehaviour
 {
-    public float visionRange = 10f;          // The maximum distance the enemy can see
-    public float visionAngle = 60f;          // The field of view angle of the enemy
-    public LayerMask targetLayer;            // The layer that the player is on
+    public float visionRange = 10f;
+    public float visionAngle = 60f;
+    public LayerMask targetLayer;
+    public LayerMask obstacleLayer; // New layer mask for obstacles
     public float detectionTimeThreshold = 2f;
     private Color originalSpotlightColor;
     public float originalSpotlightIntensity;
@@ -13,18 +14,13 @@ public class EnemyVision : MonoBehaviour
     private float detectionTime = 0f;
     private Light spotlight;
     [SerializeField] private GameObject m_enemy;
-
     private GameObject[] players;
 
     void Start()
     {
         spotlight = GetComponentInChildren<Light>();
-
         originalSpotlightColor = spotlight.color;
         originalSpotlightIntensity = spotlight.intensity;
-        // playerCaught = false;
-
-        // Find all player objects using their tags
         players = new GameObject[2];
         players[0] = GameObject.FindGameObjectWithTag("P1");
         players[1] = GameObject.FindGameObjectWithTag("P2");
@@ -42,6 +38,17 @@ public class EnemyVision : MonoBehaviour
             {
                 if (hit.collider.CompareTag("P1Collider"))
                 {
+                    // Check for obstacles between enemy and player
+                    RaycastHit obstacleHit;
+                    if (Physics.Raycast(enemy.transform.position, directionToPlayer, out obstacleHit, visionRange, obstacleLayer))
+                    {
+                        // If an obstacle is hit before the player, return false
+                        if (obstacleHit.distance < hit.distance)
+                        {
+                            return false;
+                        }
+                    }
+
                     return true;
                 }
             }
@@ -61,39 +68,28 @@ public class EnemyVision : MonoBehaviour
                     playerDetected = true;
                     SetSpotlightColor(Color.yellow);
 
-                    // Perform actions when the player is detected, like attacking or chasing
+                    // Perform actions when detected goes here
                 }
-
                 if (detectionTime < detectionTimeThreshold)
                 {
                     detectionTime += Time.deltaTime;
                     if (detectionTime >= detectionTimeThreshold)
                     {
-                        
                         GameManager.instance.CheckDetected(true);
                         Debug.Log("Caught");
                     }
                 }
-
-                // Exit the loop if at least one player is detected
                 return;
             }
         }
 
-        // If no player is detected, reset the detection state
         if (playerDetected)
         {
             playerDetected = false;
             SetSpotlightColor(originalSpotlightColor);
             detectionTime = 0f;
         }
-
     }
-
-    //private void PlayerDetectedChecker()
-    //{
-    //    GameManager.instance.CheckDetected(playerCaught);
-    //}
 
     private void SetSpotlightColor(Color color)
     {

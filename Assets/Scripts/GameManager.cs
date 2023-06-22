@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StaminaManager m_runPressed1, m_runPressed2;
     [SerializeField] private Player1 m_checkHit;
     [SerializeField] private UIManager m_uiManager;
+
     private void Awake()
     {
         if (instance != null)

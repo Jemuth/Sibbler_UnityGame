@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     private bool mustRestart;
     [SerializeField] private GameObject restartUI;
+
     private void Start()
     {
         restartUI.SetActive(false);
@@ -22,6 +23,10 @@ public class UIManager : MonoBehaviour
             Debug.Log("CAUGHT");
             restartUI.SetActive(true);
         }
+    }
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
     public void RestartScene()
     {

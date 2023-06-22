@@ -12,13 +12,11 @@ public class SpotlightController : MonoBehaviour
         get { return spotlight.color; }
         set { spotlight.color = value; }
     }
-
     private void Start()
     {
         spotlight = GetComponent<Light>();
         originalSpotlightColor = spotlight.color;
     }
-
     public void ResetSpotlightColor()
     {
         spotlight.color = originalSpotlightColor;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
 {
+    //Script for patrolling enemies
     [SerializeField] public float monsterSpeed;
     [SerializeField] public float monsterTurningSpeed = 90;
     [SerializeField] public float waitTime = 3;
@@ -36,7 +37,6 @@ public class EnemyPatrol : MonoBehaviour
     {
         SetSpeedMultiplier(EnemyTypes.Slow);
     }
-
     private void Start()
     {
         monsterAnimator.SetBool("MonsterMoving", true);
@@ -48,15 +48,12 @@ public class EnemyPatrol : MonoBehaviour
         }
         StartCoroutine(FollowPath(waypoints));
     }
-
     IEnumerator FollowPath(Vector3[] waypoints)
     {
         transform.position = waypoints[0];
         int targetWaypointIndex = 1;
         Vector3 targetWaypoint = waypoints[targetWaypointIndex];
         transform.LookAt(targetWaypoint);
-
-
         while (true)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, monsterSpeed * Time.deltaTime);
@@ -72,7 +69,6 @@ public class EnemyPatrol : MonoBehaviour
             yield return null;
         }
     }
-
     IEnumerator TurnToFace(Vector3 lookTarget)
     {
         Vector3 dirToLookTarget = (lookTarget - transform.position).normalized;
@@ -86,7 +82,6 @@ public class EnemyPatrol : MonoBehaviour
             yield return null;
         }
     }
-
     private void OnDrawGizmos()
     {
         Vector3 startPosition = pathHolder.GetChild(0).position;
