@@ -36,7 +36,7 @@ public class EnemyVision : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(enemy.transform.position, directionToPlayer, out hit, visionRange, targetLayer))
             {
-                if (hit.collider.CompareTag("P1Collider"))
+                if (hit.collider.CompareTag("P1") || hit.collider.CompareTag("P2"))
                 {
                     // Check for obstacles between enemy and player
                     RaycastHit obstacleHit;
@@ -76,7 +76,6 @@ public class EnemyVision : MonoBehaviour
                     if (detectionTime >= detectionTimeThreshold)
                     {
                         GameManager.instance.CheckDetected(true);
-                        Debug.Log("Caught");
                     }
                 }
                 return;

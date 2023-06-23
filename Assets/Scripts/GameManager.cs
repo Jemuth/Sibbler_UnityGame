@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StaminaManager m_runPressed1, m_runPressed2;
     [SerializeField] private Player1 m_checkHit;
     [SerializeField] private UIManager m_uiManager;
+    [SerializeField] private KeyCollection m_key;
 
     private void Awake()
     {
@@ -43,5 +44,8 @@ public class GameManager : MonoBehaviour
     {
         m_uiManager.CheckRestart(m_checkDetected);
     }
-
+    public void CheckKeyCollected(bool m_keyCollected)
+    {
+        m_key.CollectKey(m_keyCollected);
+    }
 }
