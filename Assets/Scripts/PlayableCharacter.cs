@@ -32,8 +32,8 @@ public abstract class PlayableCharacter : GameCharacter
     // Run button for both input and animation
     public bool runPressed;
     // Movement speed parameters
-    private float maxWalkSpeed;
-    private float maxRunSpeed;
+    public float maxWalkSpeed;
+    public float maxRunSpeed;
     private  float currentSpeed;
     private float accelerationTime;
     private float decelerationTime;
@@ -43,8 +43,8 @@ public abstract class PlayableCharacter : GameCharacter
     private float accelerationPercentage;
     private float decelerationPercentage;
     // Stamina bar and run bool for enabling runnning
-    [SerializeField] private StaminaManager m_staminaStatus;
-    private bool runEnabled;
+    [SerializeField] public StaminaManager m_staminaStatus;
+    public bool runEnabled;
     public bool canMove;
     public bool canRotate;
     // Bool for changing characters

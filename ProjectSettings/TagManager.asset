@@ -11,6 +11,7 @@ TagManager:
   - Obstacles
   - P1
   - P2
+  - Tunnel
   layers:
   - Default
   - TransparentFX
