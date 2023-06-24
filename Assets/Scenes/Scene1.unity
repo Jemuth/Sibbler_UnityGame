@@ -673,7 +673,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1079894
+  m_Name: pb_Mesh27718
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1148,7 +1148,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1798436
+  m_Name: pb_Mesh27234
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1377,10 +1377,10 @@ MonoBehaviour:
   m_key: {fileID: 462773651}
   m_checkKeys: {fileID: 976520680}
   m_checkPlayers: {fileID: 976520680}
-  enemyVisionScripts:
+  enemyCharacterScripts:
+  - {fileID: 2021928754}
   - {fileID: 716367514}
   - {fileID: 859164370}
-  - {fileID: 2021928754}
 --- !u!1 &193599081
 GameObject:
   m_ObjectHideFlags: 0
@@ -4071,6 +4071,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8407925704451ff46a52f099d129af4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_name: 
+  m_id: 
+  m_enemyData: {fileID: 0}
+  isHit: 0
   visionRange: 10
   visionAngle: 60
   targetLayer:
@@ -4080,8 +4084,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   detectionTimeThreshold: 0.5
-  visionDisableDuration: 3
+  visionDisableDuration: 8
   colorTransitionDuration: 1
+  enemyID: 2
 --- !u!114 &716367515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4095,8 +4100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: 
-  m_id: 
+  m_id: 2
   m_enemyData: {fileID: 11400000, guid: 0c1b48a324d1eb941879c4c7e40f3304, type: 2}
+  isHit: 0
 --- !u!136 &716367516
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4816,6 +4822,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8407925704451ff46a52f099d129af4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_name: 
+  m_id: 
+  m_enemyData: {fileID: 0}
+  isHit: 0
   visionRange: 10
   visionAngle: 60
   targetLayer:
@@ -4825,8 +4835,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   detectionTimeThreshold: 0.5
-  visionDisableDuration: 3
+  visionDisableDuration: 8
   colorTransitionDuration: 1
+  enemyID: 3
 --- !u!114 &859164371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4840,8 +4851,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: 
-  m_id: 
+  m_id: 3
   m_enemyData: {fileID: 11400000, guid: 0c1b48a324d1eb941879c4c7e40f3304, type: 2}
+  isHit: 0
 --- !u!136 &859164372
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5408,8 +5420,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 987413569}
-  m_LocalRotation: {x: 0.013110523, y: 0.9866177, z: -0.12598528, w: 0.10267131}
-  m_LocalPosition: {x: 0.5782257, y: 1.4170928, z: 32.899544}
+  m_LocalRotation: {x: 0.009938071, y: 0.9888876, z: -0.12627512, w: 0.077827156}
+  m_LocalPosition: {x: -3.9152584, y: 1.4716074, z: 32.927326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9913,8 +9925,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: 
-  m_id: 
+  m_id: 1
   m_enemyData: {fileID: 11400000, guid: 0c1b48a324d1eb941879c4c7e40f3304, type: 2}
+  isHit: 0
 --- !u!136 &2021928752
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9959,6 +9972,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8407925704451ff46a52f099d129af4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_name: 
+  m_id: 
+  m_enemyData: {fileID: 0}
+  isHit: 0
   visionRange: 10
   visionAngle: 60
   targetLayer:
@@ -9968,8 +9985,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   detectionTimeThreshold: 0.8
-  visionDisableDuration: 15
+  visionDisableDuration: 8
   colorTransitionDuration: 1
+  enemyID: 1
 --- !u!1 &2025315222
 GameObject:
   m_ObjectHideFlags: 0
@@ -13441,6 +13459,7 @@ MonoBehaviour:
   m_batAnimation: {fileID: 6041902711312699531}
   m_checkBatUser: {fileID: 11400000, guid: a6760cefe52498743a23aecf3548e7f9, type: 2}
   batUsed: 0
+  currentEnemyID: 0
 --- !u!1 &6136935970210552132
 GameObject:
   m_ObjectHideFlags: 0

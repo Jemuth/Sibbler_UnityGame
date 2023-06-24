@@ -2,14 +2,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections;
 
-public class EnemyVision : MonoBehaviour
+public class EnemyVision : EnemyCharacter
 {
     public float visionRange = 10f;
     public float visionAngle = 60f;
     public LayerMask targetLayer;
     public LayerMask obstacleLayer;
     public float detectionTimeThreshold = 2f;
-    public float visionDisableDuration = 5f;
+    public float visionDisableDuration = 10f;
     public float colorTransitionDuration = 1f; // Duration for transitioning color back to original
     private Color originalSpotlightColor;
     private bool playerDetected = false;
@@ -17,10 +17,11 @@ public class EnemyVision : MonoBehaviour
     private float visionDisableTimer = 0f;
     private float colorTransitionTimer = 0f; // Timer for color transition
     private Light spotlight;
-    private bool enemyHit;
     private GameObject[] players;
     private Color targetColor; // Target color for color transition
     private Color currentColor; // Current color during color transition
+    public int enemyID;
+    private bool isHit;
 
 
     void Start()
@@ -97,7 +98,7 @@ public class EnemyVision : MonoBehaviour
             }
         }
 
-        if (playerDetected && !enemyHit)
+        if (playerDetected && !isHit)
         {
             playerDetected = false;
             StartColorTransition(originalSpotlightColor);
@@ -126,16 +127,49 @@ public class EnemyVision : MonoBehaviour
             spotlight.color = Color.Lerp(currentColor, targetColor, t);
         }
     }
-
-    public void EnemyHitChecker(bool m_enemyHit)
+    public void EnemyHitChecker(bool p_enemyHit)
     {
-        enemyHit = m_enemyHit;
-        if (visionDisableTimer <= 0f && enemyHit)
+        isHit = p_enemyHit;
+    }
+    private void IntensityTransition()
+    {
+        StartCoroutine(FadeIntensity(30f, colorTransitionDuration));
+    }
+
+    private IEnumerator SpotlightIntensity()
+    {
+        float originalIntensity = spotlight.intensity;
+        spotlight.intensity = 0f;
+        yield return new WaitForSeconds(7f);
+        IntensityTransition();
+    }
+
+    private IEnumerator FadeIntensity(float targetIntensity, float duration)
+    {
+        float initialIntensity = spotlight.intensity;
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            spotlight.intensity = Mathf.Lerp(initialIntensity, targetIntensity, t);
+            yield return null;
+        }
+
+        spotlight.intensity = targetIntensity;
+    }
+    public void VisionReduced()
+    {
+        if (visionDisableTimer <= 0f && isHit)
         {
             visionDisableTimer = visionDisableDuration;
-        } else
+            StartCoroutine(SpotlightIntensity());
+        }
+        else
         {
-            enemyHit = false;
+            isHit = false;
+      
         }
     }
 
@@ -154,7 +188,7 @@ public class EnemyVision : MonoBehaviour
     private void Update()
     {
        PlayerInVision();
-       EnemyHitChecker(enemyHit);
+        VisionReduced();
        UpdateColorTransition();
     }
 

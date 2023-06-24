@@ -13,7 +13,7 @@ public class Player1 : PlayableCharacter
     private bool isHitable;
     private bool isAtDistance;
     public bool batUsed;
-   
+    public int currentEnemyID;
     void Start()
     {
         canUseSkill = true;
@@ -53,16 +53,20 @@ public class Player1 : PlayableCharacter
     //P1 Skills
     private void OnTriggerEnter(Collider character)
     {
-        if (character.gameObject.CompareTag("Enemy"))
+        EnemyVision enemy = character.gameObject.GetComponent<EnemyVision>();
+        if (enemy != null)
         {
             isAtDistance = true;
+            currentEnemyID = enemy.enemyID; // Store the ID of the colliding enemy
         }
     }
     private void OnTriggerExit(Collider character)
     {
-        if (character.gameObject.CompareTag("Enemy"))
+        EnemyCharacter enemy = character.gameObject.GetComponent<EnemyVision>();
+        if (enemy != null)
         {
             isAtDistance = false;
+            currentEnemyID = -1; // Reset the current enemy ID when no longer colliding
         }
     }
     public void CheckHitable(bool m_canUseBat)
@@ -71,24 +75,22 @@ public class Player1 : PlayableCharacter
     }
     public void UseBat()
     {
-        
         if (m_checkBatUser.isBatUser && isHitable && isAtDistance && skillPressed)
         {
-            // Debug.Log("Bonk");
             m_batAnimation.SetBool("isUsingSkill", true);
             StartCoroutine(AbilityCooldown());
             StartCoroutine(WaitToMove());
-            //EnemyVision.instance.EnemyHitChecker(true);
-            GameManager.instance.IsEnemyHit(true);
+            GameManager.instance.PlayerHitEnemy(currentEnemyID);
         }
         else if (m_checkBatUser.isBatUser && isHitable && !isAtDistance && skillPressed)
         {
-            // Debug.Log("I need to be behind a creature!");
             m_batAnimation.SetBool("isUsingSkill", false);
+            GameManager.instance.PlayerHitEnemy(-1); // Reset the enemy ID when not at distance
         }
         else
         {
             m_batAnimation.SetBool("isUsingSkill", false);
+            GameManager.instance.PlayerHitEnemy(-1); // Reset the enemy ID when not hitting
         }
     }
     protected override void OnUpdating()

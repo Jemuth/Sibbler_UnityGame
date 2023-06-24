@@ -14,8 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private KeyCollection m_key;
     [SerializeField] private UIManager m_checkKeys;
     [SerializeField] private UIManager m_checkPlayers;
-    public EnemyVision[] enemyVisionScripts;
-    
+    public EnemyVision[] enemyCharacterScripts;
 
     private void Awake()
     {
@@ -61,12 +60,14 @@ public class GameManager : MonoBehaviour
     {
         m_checkPlayers.CheckPlayersOnExit(m_playersOnExit);
     }
-
-    public void IsEnemyHit(bool enemyHit)
+    public void PlayerHitEnemy(int enemyID)
     {
-        foreach (EnemyVision enemyVisionScript in enemyVisionScripts)
+        foreach (EnemyVision enemy in enemyCharacterScripts)
         {
-            enemyVisionScript.EnemyHitChecker(enemyHit);
+            if (enemy.enemyID == enemyID)
+            {
+                enemy.EnemyHitChecker(true);
+            }
         }
     }
 }

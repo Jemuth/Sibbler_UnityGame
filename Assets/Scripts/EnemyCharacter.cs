@@ -7,16 +7,16 @@ public class EnemyCharacter : GameCharacter
 {
     [SerializeField] private EnemyCharacterData m_enemyData;
     // [SerializeField] private Animator lookerAnimator;
-    private bool isHitable;
+    private bool canBeHitCheck;
     private bool canBeHit;
 
     private void Start()
     {
-        isHitable = m_enemyData.isHittable;
+        canBeHitCheck = m_enemyData.isHittable;
     }
     private void ConditionChecker()
     {
-        if (isHitable)
+        if (canBeHitCheck)
         {
             canBeHit = true;
         }
