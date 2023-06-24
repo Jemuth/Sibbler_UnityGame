@@ -12,6 +12,7 @@ TagManager:
   - P1
   - P2
   - Tunnel
+  - Bear
   layers:
   - Default
   - TransparentFX

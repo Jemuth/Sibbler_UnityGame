@@ -13437,6 +13437,8 @@ MonoBehaviour:
   canMove: 0
   canRotate: 0
   m_crouchAnimation: {fileID: 5866666021497712716}
+  itemPrefab: {fileID: 1021544448453976354, guid: 59ecb2e9ab76dbe4999d0bf83f30766e,
+    type: 3}
 --- !u!54 &5866666021497712718
 Rigidbody:
   m_ObjectHideFlags: 0
