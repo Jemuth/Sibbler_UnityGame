@@ -26,6 +26,7 @@ public class KeyCollection : MonoBehaviour
         {
             // All keys collected, show exit message
             exitMessage.SetActive(true);
+            GameManager.instance.CheckAllKeys(true);
         } 
     }
 

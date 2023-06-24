@@ -10,7 +10,11 @@ public class Key : MonoBehaviour
     {
         if (character.gameObject.CompareTag("P1"))
         {
-            Debug.Log("Hi");
+            GameManager.instance.CheckKeyCollected(true);
+            Destroy(gameObject);
+        }
+        if (character.gameObject.CompareTag("P2"))
+        {
             GameManager.instance.CheckKeyCollected(true);
             Destroy(gameObject);
         }

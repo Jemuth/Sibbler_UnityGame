@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Player1 m_checkHit;
     [SerializeField] private UIManager m_uiManager;
     [SerializeField] private KeyCollection m_key;
+    [SerializeField] private UIManager m_checkKeys;
+    [SerializeField] private UIManager m_checkPlayers;
+    public EnemyVision[] enemyVisionScripts;
+    
 
     private void Awake()
     {
@@ -36,9 +41,9 @@ public class GameManager : MonoBehaviour
         m_runPressed1.RunPressed(p_runPressed);
         m_runPressed2.RunPressed(p_runPressed);
     }
-    public void CheckEnemyDistance(bool m_checkEnemyHit)
+    public void CheckEnemyHitable(bool m_checkEnemyHit)
     {
-        m_checkHit.DistanceChecker(m_checkEnemyHit);
+        m_checkHit.CheckHitable(m_checkEnemyHit);
     }
     public void CheckDetected(bool m_checkDetected)
     {
@@ -47,5 +52,21 @@ public class GameManager : MonoBehaviour
     public void CheckKeyCollected(bool m_keyCollected)
     {
         m_key.CollectKey(m_keyCollected);
+    }
+    public void CheckAllKeys(bool m_currentKeys)
+    {
+        m_checkKeys.CheckKeys(m_currentKeys);
+    }
+    public void CheckPlayersExit(bool m_playersOnExit)
+    {
+        m_checkPlayers.CheckPlayersOnExit(m_playersOnExit);
+    }
+
+    public void IsEnemyHit(bool enemyHit)
+    {
+        foreach (EnemyVision enemyVisionScript in enemyVisionScripts)
+        {
+            enemyVisionScript.EnemyHitChecker(enemyHit);
+        }
     }
 }
