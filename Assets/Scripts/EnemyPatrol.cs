@@ -11,6 +11,14 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private Animator monsterAnimator;
     [SerializeField] private EnemyTypes m_enemyType;
     public Transform pathHolder;
+    public bool enemyID;
+    private bool isDistractionRange;
+    private bool isDistracted;
+    public int distractionSpeed;
+    private GameObject bearObject;
+    private Light spotlight;
+    private Color originalSpotlightColor;
+    private float originalIntensity;
     public enum EnemyTypes
     {
         Slow = 1,
@@ -36,10 +44,16 @@ public class EnemyPatrol : MonoBehaviour
     private void Awake()
     {
         SetSpeedMultiplier(EnemyTypes.Slow);
+        monsterAnimator.SetBool("MonsterMoving", true);
+        spotlight = GetComponentInChildren<Light>();
     }
     private void Start()
     {
-        monsterAnimator.SetBool("MonsterMoving", true);
+        isDistractionRange = false;
+        isDistracted = false;
+        originalSpotlightColor = spotlight.color;
+        originalIntensity = spotlight.intensity;
+
         Vector3[] waypoints = new Vector3[pathHolder.childCount];
         for (int i = 0; i < waypoints.Length; i++)
         {
@@ -54,17 +68,18 @@ public class EnemyPatrol : MonoBehaviour
         int targetWaypointIndex = 1;
         Vector3 targetWaypoint = waypoints[targetWaypointIndex];
         transform.LookAt(targetWaypoint);
+
         while (true)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, monsterSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, (monsterSpeed * distractionSpeed) * Time.deltaTime);
             if (transform.position == targetWaypoint)
             {
                 targetWaypointIndex = (targetWaypointIndex + 1) % waypoints.Length;
                 targetWaypoint = waypoints[targetWaypointIndex];
                 monsterAnimator.SetBool("MonsterMoving", false);
                 yield return new WaitForSeconds(waitTime);
+                monsterAnimator.SetBool("MonsterMoving", true);
                 yield return StartCoroutine(TurnToFace(targetWaypoint));
-
             }
             yield return null;
         }
@@ -76,9 +91,9 @@ public class EnemyPatrol : MonoBehaviour
 
         while (Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.y, targetAngle)) > 0.05f)
         {
-            float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetAngle, monsterTurningSpeed * Time.deltaTime);
+            float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetAngle, (monsterTurningSpeed * distractionSpeed) * Time.deltaTime);
             transform.eulerAngles = Vector3.up * angle;
-            monsterAnimator.SetBool("MonsterMoving", true);
+            // monsterAnimator.SetBool("MonsterMoving", true);
             yield return null;
         }
     }
@@ -94,10 +109,62 @@ public class EnemyPatrol : MonoBehaviour
         }
         Gizmos.DrawLine(previousPosition, startPosition);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bear"))
+        {
+            isDistractionRange = true;
+            bearObject = other.gameObject;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bear"))
+        {
+            isDistractionRange = false;
+            bearObject = null;
+        }
+    }
+    public void Distracted()
+    {
+        if (bearObject != null)
+        {
+            distractionSpeed = 0;
+        }
+        else
+        {
+            distractionSpeed = 1;
+        }
+    }
+    private void SetSpeed()
+    {
+        if (!isDistracted)
+        {
+            distractionSpeed = 1;
+        }
+        if (isDistractionRange)
+        {
+            
+        }
+    }
+    private void SetAnimation()
+    {
+        if (distractionSpeed <= 0)
+        {
+            monsterAnimator.SetBool("MonsterMoving", false);
+        }
+        else
+        {
+            monsterAnimator.SetBool("MonsterMoving", true);
+        }
+    }
     private void Update()
     {
 
         SetSpeedMultiplier(m_enemyType);
+        SetSpeed();
+        Distracted();
+        SetAnimation();
 
     }
 }
