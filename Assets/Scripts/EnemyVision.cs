@@ -23,6 +23,7 @@ public class EnemyVision : EnemyCharacter
     [SerializeField] private Material emissiveMaterial;
     [SerializeField] private Renderer objectToChange;
     private Color originalEmissiveColor;
+    [SerializeField] private SpriteRenderer stunSpriteRenderer;
 
     void Start()
     {
@@ -30,9 +31,14 @@ public class EnemyVision : EnemyCharacter
         players = new GameObject[2];
         players[0] = GameObject.FindGameObjectWithTag("P1");
         players[1] = GameObject.FindGameObjectWithTag("P2");
-        currentColor = Color.white;
+        // currentColor = Color.white;
         emissiveMaterial = objectToChange != null ? objectToChange.GetComponentInChildren<Renderer>().material : null;
         originalEmissiveColor = emissiveMaterial != null ? emissiveMaterial.GetColor("_EmissionColor") : Color.yellow;
+        stunSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (stunSpriteRenderer != null)
+        {
+            stunSpriteRenderer.enabled = false;
+        }
 
     }
 
@@ -142,6 +148,11 @@ public class EnemyVision : EnemyCharacter
         if (visionDisableTimer <= 0f && isHit)
         {
             visionDisableTimer = visionDisableDuration;
+
+            if (stunSpriteRenderer != null)
+            {
+                stunSpriteRenderer.enabled = true;
+            }
         }
         else
         {
@@ -185,5 +196,9 @@ public class EnemyVision : EnemyCharacter
         PlayerInVision();
         VisionReduced();
         UpdateColorTransition();
+        if (visionDisableTimer <= 0f && stunSpriteRenderer != null && stunSpriteRenderer.enabled)
+        {
+            stunSpriteRenderer.enabled = false;
+        }
     }
 }
