@@ -7,6 +7,7 @@ public class KeyCollection : MonoBehaviour
     public int totalKeys = 5;  // Total number of keys in the level
     public TMP_Text keysLeftText; // UI text element to display the number of keys left
     public GameObject exitMessage; // UI message element to display the exit message
+    [SerializeField] private Animator m_openDoor;
 
     private int keysCollected = 0; // Number of keys collected
 
@@ -27,6 +28,7 @@ public class KeyCollection : MonoBehaviour
             // All keys collected, show exit message
             exitMessage.SetActive(true);
             GameManager.instance.CheckAllKeys(true);
+            m_openDoor.SetBool("isExit", true);
         } 
     }
 
