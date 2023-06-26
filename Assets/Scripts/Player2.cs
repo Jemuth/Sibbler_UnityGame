@@ -92,7 +92,7 @@ public class Player2 : PlayableCharacter
     private IEnumerator DropBearTimer()
     {
         yield return new WaitForSeconds(1.5f);
-        Vector3 spawnPosition = transform.position + transform.forward * 0.4f + transform.up * 0.2f; // Adjust the distance as per your requiremen
+        Vector3 spawnPosition = transform.position + transform.forward * 0.4f + transform.up * 0; // Adjust the distance as per your requiremen
         Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
     }
     private void DestroyAllBears()

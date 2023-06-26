@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections;
 
@@ -11,27 +10,30 @@ public class EnemyVision : EnemyCharacter
     public float detectionTimeThreshold = 2f;
     public float visionDisableDuration = 10f;
     public float colorTransitionDuration = 1f; // Duration for transitioning color back to original
-    private Color originalSpotlightColor;
+    private Color originalEmissionColor;
     private bool playerDetected = false;
     private float detectionTime = 0f;
     private float visionDisableTimer = 0f;
     private float colorTransitionTimer = 0f; // Timer for color transition
-    private Light spotlight;
     private GameObject[] players;
     private Color targetColor; // Target color for color transition
     private Color currentColor; // Current color during color transition
     public int enemyID;
     private bool isHit;
-
+    [SerializeField] private Material emissiveMaterial;
+    [SerializeField] private Renderer objectToChange;
+    private Color originalEmissiveColor;
 
     void Start()
     {
-        spotlight = GetComponentInChildren<Light>();
-        originalSpotlightColor = spotlight.color;
+        originalEmissionColor = Color.yellow;
         players = new GameObject[2];
         players[0] = GameObject.FindGameObjectWithTag("P1");
         players[1] = GameObject.FindGameObjectWithTag("P2");
-        currentColor = originalSpotlightColor;
+        currentColor = Color.white;
+        emissiveMaterial = objectToChange != null ? objectToChange.GetComponentInChildren<Renderer>().material : null;
+        originalEmissiveColor = emissiveMaterial != null ? emissiveMaterial.GetColor("_EmissionColor") : Color.yellow;
+
     }
 
     private bool IsPlayerInVision(GameObject player, GameObject enemy)
@@ -81,7 +83,7 @@ public class EnemyVision : EnemyCharacter
                 if (!playerDetected)
                 {
                     playerDetected = true;
-                    SetSpotlightColor(Color.red);
+                    ChangeEmissionColor(Color.red);
 
                     // Perform actions when detected goes here
                 }
@@ -101,20 +103,21 @@ public class EnemyVision : EnemyCharacter
         if (playerDetected && !isHit)
         {
             playerDetected = false;
-            StartColorTransition(originalSpotlightColor);
+            StartColorTransition(originalEmissionColor);
             detectionTime = 0f;
         }
     }
-
-    private void SetSpotlightColor(Color color)
+    private void ChangeEmissionColor(Color color)
     {
-        spotlight.color = color;
+        if (emissiveMaterial != null)
+        {
+            emissiveMaterial.SetColor("_EmissionColor", color);
+        }
     }
 
-    private void StartColorTransition(Color m_targetColor)
+    private void StartColorTransition(Color targetColor)
     {
-        targetColor = m_targetColor;
-        currentColor = spotlight.color;
+        this.targetColor = targetColor;
         colorTransitionTimer = colorTransitionDuration;
     }
 
@@ -124,73 +127,63 @@ public class EnemyVision : EnemyCharacter
         {
             colorTransitionTimer -= Time.deltaTime;
             float t = 1f - (colorTransitionTimer / colorTransitionDuration);
-            spotlight.color = Color.Lerp(currentColor, targetColor, t);
+            Color newEmissionColor = Color.Lerp(originalEmissiveColor, targetColor, t);
+            ChangeEmissionColor(newEmissionColor);
         }
     }
-    public void EnemyHitChecker(bool p_enemyHit)
+
+    public void EnemyHitChecker(bool enemyHit)
     {
-        isHit = p_enemyHit;
-    }
-    private void IntensityTransition()
-    {
-        StartCoroutine(FadeIntensity(30f, colorTransitionDuration));
+        isHit = enemyHit;
     }
 
-    private IEnumerator SpotlightIntensity()
-    {
-        float originalIntensity = spotlight.intensity;
-        spotlight.intensity = 0f;
-        yield return new WaitForSeconds(7f);
-        IntensityTransition();
-    }
-
-    private IEnumerator FadeIntensity(float targetIntensity, float duration)
-    {
-        float initialIntensity = spotlight.intensity;
-        float timer = 0f;
-
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            float t = timer / duration;
-            spotlight.intensity = Mathf.Lerp(initialIntensity, targetIntensity, t);
-            yield return null;
-        }
-
-        spotlight.intensity = targetIntensity;
-    }
     public void VisionReduced()
     {
         if (visionDisableTimer <= 0f && isHit)
         {
             visionDisableTimer = visionDisableDuration;
-            StartCoroutine(SpotlightIntensity());
         }
         else
         {
             isHit = false;
-      
         }
     }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, visionRange);
 
-        Vector3 rightBoundary = Quaternion.Euler(0, visionAngle * 0.5f, 0) * transform.forward;
-        Vector3 leftBoundary = Quaternion.Euler(0, -visionAngle * 0.5f, 0) * transform.forward;
+        Quaternion rightRotation = Quaternion.Euler(0f, visionAngle * 0.5f, 0f);
+        Quaternion leftRotation = Quaternion.Euler(0f, -visionAngle * 0.5f, 0f);
 
-        Gizmos.DrawLine(transform.position, transform.position + rightBoundary * visionRange);
-        Gizmos.DrawLine(transform.position, transform.position + leftBoundary * visionRange);
+        Vector3 rightDirection = rightRotation * transform.forward;
+        Vector3 leftDirection = leftRotation * transform.forward;
+
+        Gizmos.DrawLine(transform.position, transform.position + rightDirection * visionRange);
+        Gizmos.DrawLine(transform.position, transform.position + leftDirection * visionRange);
+
+        // Draw the vision cone
+        int segments = 36; // Number of segments to approximate the circle
+        float angleIncrement = visionAngle / segments;
+        Vector3 previousDirection = rightDirection;
+
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = angleIncrement * i;
+            Quaternion rotation = Quaternion.Euler(0f, -angle, 0f);
+            Vector3 direction = rotation * rightDirection;
+
+            Gizmos.DrawLine(transform.position, transform.position + previousDirection * visionRange);
+            Gizmos.DrawLine(transform.position, transform.position + direction * visionRange);
+
+            previousDirection = direction;
+        }
     }
 
     private void Update()
     {
-       PlayerInVision();
+        PlayerInVision();
         VisionReduced();
-       UpdateColorTransition();
+        UpdateColorTransition();
     }
-
-   
 }

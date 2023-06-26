@@ -12,13 +12,8 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private EnemyTypes m_enemyType;
     public Transform pathHolder;
     public bool enemyID;
-    private bool isDistractionRange;
-    private bool isDistracted;
     public int distractionSpeed;
     private GameObject bearObject;
-    private Light spotlight;
-    private Color originalSpotlightColor;
-    private float originalIntensity;
     public enum EnemyTypes
     {
         Slow = 1,
@@ -45,14 +40,9 @@ public class EnemyPatrol : MonoBehaviour
     {
         SetSpeedMultiplier(EnemyTypes.Slow);
         monsterAnimator.SetBool("MonsterMoving", true);
-        spotlight = GetComponentInChildren<Light>();
     }
     private void Start()
     {
-        isDistractionRange = false;
-        isDistracted = false;
-        originalSpotlightColor = spotlight.color;
-        originalIntensity = spotlight.intensity;
 
         Vector3[] waypoints = new Vector3[pathHolder.childCount];
         for (int i = 0; i < waypoints.Length; i++)
@@ -113,7 +103,6 @@ public class EnemyPatrol : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bear"))
         {
-            isDistractionRange = true;
             bearObject = other.gameObject;
         }
     }
@@ -121,7 +110,6 @@ public class EnemyPatrol : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Bear"))
         {
-            isDistractionRange = false;
             bearObject = null;
         }
     }
@@ -134,17 +122,6 @@ public class EnemyPatrol : MonoBehaviour
         else
         {
             distractionSpeed = 1;
-        }
-    }
-    private void SetSpeed()
-    {
-        if (!isDistracted)
-        {
-            distractionSpeed = 1;
-        }
-        if (isDistractionRange)
-        {
-            
         }
     }
     private void SetAnimation()
@@ -162,7 +139,6 @@ public class EnemyPatrol : MonoBehaviour
     {
 
         SetSpeedMultiplier(m_enemyType);
-        SetSpeed();
         Distracted();
         SetAnimation();
 
