@@ -9,8 +9,38 @@
 
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/GDDCoverArt.jpg)
 
-Juego de sigilo-thriller cuyo objetivo es recolectar distintos objetos y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos personajes, 
-los cuales poseen habilidades unicas y distintas uno del otro. El exito del escape depende del uso correcto de cada habilidad y personaje en la situacion pertinente
+*Concepto inicial*
+Juego de sigilo estrategico - puzzle objetivo es recolectar llaves y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos hermanas,
+las cuales poseen distintos atributos y una habilidad particular que deberan ocupar.
+
+*Resumen de build inicial*
+
+Juego de alta dificultad y coordinacion estilo sigilo-estrategia en el cual se debera recopilar llaves y encontrar la salida, evitando el campo de vision de los enemigos. El jugador controla a dos personajes intercambiables: dos hermanas que deben escapar de las criaturas
+sombrias. Cada una posee distintos skills y atributos que deberan usar estrategicamente para escapar. El juego posee una direccion de arte y estilo visual que intenta emular juegos de la era del PSX, utilizando shader, por ejemplo, con 
+vertex jittering y texturas de baja resolucion. El diseño de los escenarios se penso utilizando un sistema de grilla utilizando la escala de 1x1x1, y modelando escenario en Maya utilizando una cuadricula.
+El mayor desafio fue implementar mecanicas que involucraran a distintas entidades en la escena, al mismo tiempo que cada jugador maneja sus propias acciones, cooldowns o eventos.
+
+*Controles*
+
+- Input directinal : Movimiento AWSD + Mouse Look
+- Left shift : Run(Vigilar stamina!)
+- C: Cambio de jugador: El jugador inactivo aparecera en la camara inferior derecha, lo cual ayudara a evitar peligro y coordinar acciones. Sirve a modo de minimap para evaluar la situacion.
+- E: Skill especial(Posee cooldown: 
+- Hermana mayor(P1) golpea a los enemigos tipo VIGILANTES(ojos rojos) por la espalda con su bat.Mientras esten deshabilitados, mostrara un icono. Posee cooldown de baja duracion.
+- Habilidad pasiva: Puede correr mucho mas rapido y por mayor tiempo lo cual le ayuda a escapar a tiempo del FoV enemigo. Puede destruir objetos que obstaculizan el paso(en implementacion)
+- Hermana menor(P2) deja un oso de peluche que distrae a los enemigos de tipo PATRULLEROS(ojos amarillos). Todo patrullero que entre en contacto dejara de moverse por el tiempo de su duracion. Cooldown de alta duracion
+- Habilidad pasiva: Puede escabullirse por tuneles y encontrar objetos claves o tomar atajos. Mas dificil de ver, pero corre mas lento y se cansa mas rapido.
+
+*Bugs o modificaciones a realizar identificadas**
+
+- El sistema de indicacion de FoV se realizo pensando en la simulacion de spotlight que usaba el hardware de la PSX(mesh con transparencia y emision).Sin embargo esto satura la pantalla con demasiado informacion visual.En futuro
+se plantea utilizar un Sprite con un audio cue para indicar deteccion.
+- El sistema de deteccion de golpe de la habilidad de bat puede ser irresponsivo en raras ocasiones, dependiendo de la ubicacion de los colliders.
+
+*Otros detalles y agradecimientos*
+
+Todos los modelos de personajes, escenario y otros assets, asi como las texturas texturas son hechos o modificados por mi. Animaciones de Mixamo. Shader URP PSX por Kodrin.Musica de escena 1 y escena 2 por Lisergishnu.
+Juego sin fin comercial.
 
 #### Bitacora de desarrollo
 
@@ -104,3 +134,4 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 3. Se añade sistema de camaras Cinemachine con su respectivo script para cambio de camara segun personaje seleccionado
 
 ** BITACORA A ACTUALIZAR POSTERIOR A BUILD INICIAL
+
