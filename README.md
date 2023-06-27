@@ -103,3 +103,4 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 2. Implementacion de sistema de camera follow para ambos personajes
 3. Se añade sistema de camaras Cinemachine con su respectivo script para cambio de camara segun personaje seleccionado
 
+** BITACORA A ACTUALIZAR POSTERIOR A BUILD INICIAL
