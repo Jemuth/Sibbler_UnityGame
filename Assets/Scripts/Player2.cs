@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
+
 
 public class Player2 : PlayableCharacter
 {
@@ -92,7 +90,7 @@ public class Player2 : PlayableCharacter
     private IEnumerator DropBearTimer()
     {
         yield return new WaitForSeconds(1f);
-        Vector3 spawnPosition = transform.position + transform.forward * 0.4f + transform.up * 0; 
+        Vector3 spawnPosition = transform.position + transform.forward * 0.4f + transform.up * 0;
         Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
     }
     private void DestroyAllBears()
@@ -119,7 +117,8 @@ public class Player2 : PlayableCharacter
             StartCoroutine(AbilityCooldown());
             StartCoroutine(WaitToMove());
             StartCoroutine(DestroyAllBearsCoroutine());
-        } else
+        }
+        else
         {
             m_crouchAnimation.SetBool("IsDrop", false);
         }
