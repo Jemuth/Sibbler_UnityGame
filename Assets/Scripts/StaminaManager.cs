@@ -8,7 +8,7 @@ public class StaminaManager : MonoBehaviour
     private int maxStamina;
     public int currentStamina;
     public bool canUseStamina;
-    private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
+    private WaitForSeconds regenTick = new WaitForSeconds(0.05f);
     [SerializeField] private PlayableCharacterData m_data;
     private Coroutine regen;
     private bool runPressed;
@@ -47,7 +47,7 @@ public class StaminaManager : MonoBehaviour
 
     private IEnumerator RegenStamina()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(1);
 
         while (currentStamina < maxStamina)
         {

@@ -4,14 +4,13 @@ using TMPro;
 
 public class KeyCollection : MonoBehaviour
 {
-    public int totalKeys = 5;  // Total number of keys in the level
-    public TMP_Text keysLeftText; // UI text element to display the number of keys left
-    public GameObject exitMessage; // UI message element to display the exit message
+    public int totalKeys = 5;  
+    public TMP_Text keysLeftText; 
+    public GameObject exitMessage; 
     [SerializeField] private Animator m_openDoor;
 
-    private int keysCollected = 0; // Number of keys collected
+    private int keysCollected = 0; 
 
-    // Called when a player collects a key
     private void Start()
     {
         UpdateUI();
@@ -25,14 +24,13 @@ public class KeyCollection : MonoBehaviour
         }
         if (keysCollected >= totalKeys)
         {
-            // All keys collected, show exit message
+            
             exitMessage.SetActive(true);
             GameManager.instance.CheckAllKeys(true);
             m_openDoor.SetBool("isExit", true);
         } 
     }
 
-    // Updates the UI to display the number of keys left
     private void UpdateUI()
     {
         int keysLeft = totalKeys - keysCollected;

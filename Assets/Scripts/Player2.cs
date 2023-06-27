@@ -78,7 +78,7 @@ public class Player2 : PlayableCharacter
     {
         canMove = false;
         canRotate = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         canMove = true;
         canRotate = true;
     }
@@ -91,8 +91,8 @@ public class Player2 : PlayableCharacter
     }
     private IEnumerator DropBearTimer()
     {
-        yield return new WaitForSeconds(1.5f);
-        Vector3 spawnPosition = transform.position + transform.forward * 0.4f + transform.up * 0; // Adjust the distance as per your requiremen
+        yield return new WaitForSeconds(1f);
+        Vector3 spawnPosition = transform.position + transform.forward * 0.4f + transform.up * 0; 
         Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
     }
     private void DestroyAllBears()
@@ -106,7 +106,7 @@ public class Player2 : PlayableCharacter
     }
     private IEnumerator DestroyAllBearsCoroutine()
     {
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(20);
         DestroyAllBears();
     }
 

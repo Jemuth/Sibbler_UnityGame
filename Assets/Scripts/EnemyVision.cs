@@ -9,15 +9,15 @@ public class EnemyVision : EnemyCharacter
     public LayerMask obstacleLayer;
     public float detectionTimeThreshold = 2f;
     public float visionDisableDuration = 10f;
-    public float colorTransitionDuration = 1f; // Duration for transitioning color back to original
+    public float colorTransitionDuration = 1f; 
     private Color originalEmissionColor;
     private bool playerDetected = false;
     private float detectionTime = 0f;
     private float visionDisableTimer = 0f;
-    private float colorTransitionTimer = 0f; // Timer for color transition
+    private float colorTransitionTimer = 0f; 
     private GameObject[] players;
-    private Color targetColor; // Target color for color transition
-    private Color currentColor; // Current color during color transition
+    private Color targetColor; 
+    private Color currentColor; 
     public int enemyID;
     private bool isHit;
     [SerializeField] private Material emissiveMaterial;
@@ -44,7 +44,7 @@ public class EnemyVision : EnemyCharacter
 
     private bool IsPlayerInVision(GameObject player, GameObject enemy)
     {
-        // Check if player is within vision range and angle
+       
         Vector3 directionToPlayer = player.transform.position - enemy.transform.position;
         float angleToPlayer = Vector3.Angle(enemy.transform.forward, directionToPlayer);
 
@@ -55,7 +55,7 @@ public class EnemyVision : EnemyCharacter
             {
                 if (hit.collider.CompareTag("P1") || hit.collider.CompareTag("P2"))
                 {
-                    // Check for obstacles between enemy and player
+                    
                     RaycastHit obstacleHit;
                     if (Physics.Raycast(enemy.transform.position, directionToPlayer, out obstacleHit, visionRange, obstacleLayer))
                     {
@@ -77,7 +77,7 @@ public class EnemyVision : EnemyCharacter
     {
         if (visionDisableTimer > 0f)
         {
-            // Vision is disabled, reduce the timer and return
+            
             visionDisableTimer -= Time.deltaTime;
             return;
         }
@@ -91,7 +91,7 @@ public class EnemyVision : EnemyCharacter
                     playerDetected = true;
                     ChangeEmissionColor(Color.red);
 
-                    // Perform actions when detected goes here
+                    // Perform action!
                 }
 
                 if (detectionTime < detectionTimeThreshold)
@@ -173,8 +173,8 @@ public class EnemyVision : EnemyCharacter
         Gizmos.DrawLine(transform.position, transform.position + rightDirection * visionRange);
         Gizmos.DrawLine(transform.position, transform.position + leftDirection * visionRange);
 
-        // Draw the vision cone
-        int segments = 36; // Number of segments to approximate the circle
+        // Gizmo visual
+        int segments = 36; // 
         float angleIncrement = visionAngle / segments;
         Vector3 previousDirection = rightDirection;
 

@@ -11,6 +11,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public abstract class PlayableCharacter : GameCharacter
 {
+    // Comentarios para recordar flujo de trabajo
     [SerializeField] private float playerRotationSpeed = 60;
     [SerializeField] private Animator animator;
     [SerializeField] private PlayableCharacterData m_data;

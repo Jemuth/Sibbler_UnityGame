@@ -8,11 +8,9 @@ public class Distraction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the collided object is an enemy
         EnemyPatrol enemy = other.GetComponent<EnemyPatrol>();
         if (enemy != null)
         {
-            // Change the sprite renderer's sprite to the distracted sprite
             prefabSpriteRenderer.enabled = true;
         } else
         {
