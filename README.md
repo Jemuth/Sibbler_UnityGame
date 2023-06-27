@@ -33,6 +33,7 @@ El mayor desafio fue implementar mecanicas que involucraran a distintas entidade
 
 *Bugs o modificaciones a realizar identificadas**
 
+- UI solamente funcional(incompleta a nivel de acabo)
 - El sistema de indicacion de FoV se realizo pensando en la simulacion de spotlight que usaba el hardware de la PSX(mesh con transparencia y emision).Sin embargo esto satura la pantalla con demasiado informacion visual.En futuro
 se plantea utilizar un Sprite con un audio cue para indicar deteccion.
 - El sistema de deteccion de golpe de la habilidad de bat puede ser irresponsivo en raras ocasiones, dependiendo de la ubicacion de los colliders.
