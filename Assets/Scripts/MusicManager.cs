@@ -94,10 +94,16 @@ public class MusicManager : MonoBehaviour
     private void OnDestroy()
     {
         // Save the current playback positions when the MusicManager is destroyed
-        for (int i = 0; i < audioSources.Length; i++)
+        if (audioSources != null)
         {
-            string sceneName = sceneMusicData[i].sceneName;
-            SavePlaybackPosition(sceneName, audioSources[i].time);
+            for (int i = 0; i < audioSources.Length; i++)
+            {
+                if (sceneMusicData != null && i < sceneMusicData.Length)
+                {
+                    string sceneName = sceneMusicData[i].sceneName;
+                    SavePlaybackPosition(sceneName, audioSources[i].time);
+                }
+            }
         }
     }
 
