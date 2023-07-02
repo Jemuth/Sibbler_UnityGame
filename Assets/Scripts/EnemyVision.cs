@@ -187,7 +187,7 @@ public class EnemyVision : EnemyCharacter
     public IEnumerator PlayStun()
     {
         yield return new WaitForSeconds(0.3f);
-        m_lookerAudioStun.PlayOneShot(beingStunned, 1f);
+        m_lookerAudioStun.PlayOneShot(beingStunned, 0.5f);
     }
     public void PlayStunSound()
     {

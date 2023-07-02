@@ -70,7 +70,7 @@ public class Player1 : PlayableCharacter
                 detectedSpriteRenderer.enabled = true;
                 if (!m_detectedSource.isPlaying)
                 {
-                    m_detectedSource.PlayOneShot(detectedSound, 1F);
+                    m_detectedSource.PlayOneShot(detectedSound, 0.4F);
                 }  
             }
             else

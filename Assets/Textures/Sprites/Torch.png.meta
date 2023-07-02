@@ -792,9 +792,9 @@ TextureImporter:
       name: Torch_32
       rect:
         serializedVersion: 2
-        x: 232
+        x: 228
         y: 0
-        width: 58
+        width: 62
         height: 84
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

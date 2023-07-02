@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MenuLoad : MonoBehaviour
 {
-    public float fadeDuration = 10f;  // Duration of the fade in seconds
+    public float fadeDuration = 10f;
 
     private Image image;
 
@@ -30,7 +30,6 @@ public class MenuLoad : MonoBehaviour
             yield return null;
         }
 
-        // Ensure the image is completely transparent at the end
         image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
     }
 }

@@ -70,6 +70,14 @@ public class UIManager : MonoBehaviour
         else
             Debug.Log("It's the last scene");
     }
+    public void LoadScene2()
+    {
+        SceneManager.LoadScene("Scene2");
+    }
+    public void Ending()
+    {
+        SceneManager.LoadScene("Ending");
+    }
     private void Update()
     {
         RestartSceneUI();
