@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxStamina: 300
   walkSpeed: 1.6
-  runSpeed: 3.6
+  runSpeed: 3.8
   acceleration: 0.1
   deceleration: 0.1
   regenTime: 0

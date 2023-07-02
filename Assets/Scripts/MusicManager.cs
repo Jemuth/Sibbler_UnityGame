@@ -11,7 +11,7 @@ public class SceneMusicData
 public class MusicManager : MonoBehaviour
 {
     private static MusicManager instance;
-    private AudioSource audioSource;
+    private AudioSource[] audioSources;
     public SceneMusicData[] sceneMusicData;
 
     private void Awake()
@@ -30,25 +30,25 @@ public class MusicManager : MonoBehaviour
         // Set this GameObject to not be destroyed when loading a new scene
         DontDestroyOnLoad(gameObject);
 
-        // Get or add the AudioSource component
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
+        // Create audio sources for each track
+        audioSources = new AudioSource[sceneMusicData.Length];
 
-        // Play the music clip if it is not already playing
-        if (!audioSource.isPlaying)
+        for (int i = 0; i < sceneMusicData.Length; i++)
         {
-            // Find the associated music clip for the current scene
-            string sceneName = SceneManager.GetActiveScene().name;
-            AudioClip musicClip = GetMusicClipForScene(sceneName);
+            audioSources[i] = gameObject.AddComponent<AudioSource>();
+            audioSources[i].playOnAwake = false;
+            audioSources[i].loop = true;
+            audioSources[i].clip = sceneMusicData[i].musicClip;
+            audioSources[i].volume = 0f;
 
-            if (musicClip != null)
-            {
-                // Set the new music clip and play it
-                audioSource.clip = musicClip;
-                audioSource.Play();
-            }
+            if (sceneMusicData[i].sceneName == SceneManager.GetActiveScene().name)
+                audioSources[i].volume = 0.1f;
+            else
+                audioSources[i].Stop(); // Stop audio sources for non-active scenes
         }
+
+        // Play the music clips
+        PlayMusicClips();
     }
 
     private void OnEnable()
@@ -65,37 +65,40 @@ public class MusicManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Find the associated music clip for the current scene
+        // Set the volume of the music tracks for the new scene
         string sceneName = scene.name;
-        AudioClip musicClip = GetMusicClipForScene(sceneName);
+        SetMusicVolume(sceneName);
+    }
 
-        if (musicClip != null)
+    private void SetMusicVolume(string sceneName)
+    {
+        // Set the volume of the music tracks based on the current scene
+        for (int i = 0; i < audioSources.Length; i++)
         {
-            // Check if the music clip is different from the currently playing clip
-            if (audioSource.clip != musicClip)
-            {
-                // Set the new music clip and play it from the saved playback position
-                audioSource.clip = musicClip;
-                audioSource.time = GetSavedPlaybackPosition(sceneName);
-                audioSource.Play();
-            }
-        }
-        else
-        {
-            // Stop the music if no music clip is associated with the current scene
-            audioSource.Stop();
+            if (sceneMusicData[i].sceneName == sceneName)
+                audioSources[i].volume = 0.1f;
+            else
+                audioSources[i].volume = 0f;
         }
     }
 
-    private AudioClip GetMusicClipForScene(string sceneName)
+    private void PlayMusicClips()
     {
-        foreach (var data in sceneMusicData)
+        // Play the music clips
+        for (int i = 0; i < audioSources.Length; i++)
         {
-            if (data.sceneName == sceneName)
-                return data.musicClip;
+            audioSources[i].Play();
         }
+    }
 
-        return null;
+    private void OnDestroy()
+    {
+        // Save the current playback positions when the MusicManager is destroyed
+        for (int i = 0; i < audioSources.Length; i++)
+        {
+            string sceneName = sceneMusicData[i].sceneName;
+            SavePlaybackPosition(sceneName, audioSources[i].time);
+        }
     }
 
     private float GetSavedPlaybackPosition(string sceneName)
@@ -109,12 +112,5 @@ public class MusicManager : MonoBehaviour
         // Save the playback position for the specified scene
         PlayerPrefs.SetFloat(sceneName + "_PlaybackPosition", playbackPosition);
         PlayerPrefs.Save();
-    }
-
-    private void OnDestroy()
-    {
-        // Save the current playback position when the MusicManager is destroyed
-        string sceneName = SceneManager.GetActiveScene().name;
-        SavePlaybackPosition(sceneName, audioSource.time);
     }
 }

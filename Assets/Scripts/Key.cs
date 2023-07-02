@@ -7,6 +7,7 @@ using UnityEngine;
 public class Key : MonoBehaviour
 {
     private void OnTriggerEnter(Collider character)
+
     {
         if (character.gameObject.CompareTag("P1"))
         {

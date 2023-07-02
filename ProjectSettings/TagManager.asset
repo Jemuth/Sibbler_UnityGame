@@ -24,8 +24,8 @@ TagManager:
   - Roof
   - Enemy
   - Player
-  - 
-  - 
+  - VisionCones
+  - PointLight
   - 
   - 
   - 

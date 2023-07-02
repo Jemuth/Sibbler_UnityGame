@@ -8,6 +8,8 @@ public class KeyCollection : MonoBehaviour
     public TMP_Text keysLeftText; 
     public GameObject exitMessage; 
     [SerializeField] private Animator m_openDoor;
+    [SerializeField] private AudioSource m_keySource;
+    public AudioClip keyCollected;
 
     private int keysCollected = 0; 
 
@@ -20,6 +22,7 @@ public class KeyCollection : MonoBehaviour
         if(m_keyCollected == true) 
         { 
         keysCollected++;
+        m_keySource.PlayOneShot(keyCollected, 1F);
         UpdateUI();
         }
         if (keysCollected >= totalKeys)
@@ -34,6 +37,6 @@ public class KeyCollection : MonoBehaviour
     private void UpdateUI()
     {
         int keysLeft = totalKeys - keysCollected;
-        keysLeftText.text = "Keys Left: " + keysLeft.ToString();
+        keysLeftText.text = keysLeft.ToString();
     }
 }

@@ -14,7 +14,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager m_checkKeys;
     [SerializeField] private UIManager m_checkPlayers;
     public EnemyVision[] enemyCharacterScripts;
-
+    [SerializeField] private SkillCooldownP1 m_skillUsed;
+    [SerializeField] private SkillCooldownP2 m_skillUsed2;
+    //[SerializeField] private Player1 m_checkDetectedP1;
+    //[SerializeField] private Player2 m_checkDetectedP2;
     private void Awake()
     {
         if (instance != null)
@@ -69,4 +72,16 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public void Player1SkillUsed(bool skillUsed)
+    {
+        m_skillUsed.UISkillChecker(skillUsed);
+    }
+    public void Player2SkillUsed(bool skillUsed)
+    {
+        m_skillUsed2.UISkillChecker2(skillUsed);
+    }
+    //public void CheckDetectedP1(bool p_checkDetected)
+    //{
+    //    m_checkDetectedP1.CheckDetected(p_checkDetected);
+    //}
 }

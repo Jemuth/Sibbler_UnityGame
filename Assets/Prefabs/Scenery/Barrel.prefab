@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 740363650165177486}
   - component: {fileID: 3288396943178598468}
   - component: {fileID: 4207257299443946714}
-  - component: {fileID: 4207257299443946715}
+  - component: {fileID: 5326092062195385391}
   m_Layer: 6
   m_Name: Barrel
   m_TagString: Obstacles
@@ -102,9 +102,9 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!64 &4207257299443946715
-MeshCollider:
+  m_CollisionDetection: 1
+--- !u!65 &5326092062195385391
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -113,10 +113,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6239881831769578202, guid: 95df96ad8afddea46b66af6ff1aa69a0, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.027937021, y: 0.026471306, z: 0.02770349}
+  m_Center: {x: 0.0004523826, y: -0.00040384248, z: -0.002117027}
 --- !u!1 &4207257300571407639
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,5 +159,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.031717066, y: 0.024258526, z: 0.025404816}
-  m_Center: {x: 0.0006347377, y: -0.00010210273, z: -0.0019590491}
+  m_Size: {x: 0.02537356, y: 0.024258526, z: 0.025404762}
+  m_Center: {x: 0.00041102237, y: -0.00010210273, z: -0.0019590496}

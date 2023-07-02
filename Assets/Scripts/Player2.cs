@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Player2 : PlayableCharacter
@@ -9,9 +10,16 @@ public class Player2 : PlayableCharacter
     private bool onCrouchZone;
     private bool canUseSkill2;
     private bool skillPressed2;
+    public bool skill2Used;
+    [SerializeField] private SpriteRenderer detectedSpriteRenderer;
+    [SerializeField] private AudioSource m_detectedSource;
+    public AudioClip detectedSound;
+    public bool detected;
     private void Start()
     {
         canUseSkill2 = true;
+        skill2Used = false;
+        detected = false;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -26,6 +34,40 @@ public class Player2 : PlayableCharacter
         if (other.gameObject.CompareTag("Tunnel"))
         {
             onCrouchZone = false;
+        }
+    }
+    private void OnEnable()
+    {
+        EnemyVision.OnSetDetected += DisplaySprite;
+        EnemyVision.OnLeaveDetected += HideSprite;
+    }
+    private void DisplaySprite()
+    {
+        detected = true;
+    }
+    private void HideSprite()
+    {
+        detected = false;
+    }
+    private void DetectedSprite()
+    {
+        if (detected)
+        {
+            Color spriteColor = detectedSpriteRenderer.color;
+            spriteColor.a = 1f; // Alpha value of 1 sets transparency to 255 (fully opaque)
+            detectedSpriteRenderer.color = spriteColor;
+            detectedSpriteRenderer.enabled = true;
+            if (!m_detectedSource.isPlaying)
+            {
+                m_detectedSource.PlayOneShot(detectedSound, 1F);
+            }
+        }
+        else
+        {
+            Color spriteColor = detectedSpriteRenderer.color;
+            spriteColor.a = 0f; // Alpha value of 0 sets transparency to 0 (fully transparent)
+            detectedSpriteRenderer.color = spriteColor;
+            detectedSpriteRenderer.enabled = false;
         }
     }
 
@@ -61,6 +103,7 @@ public class Player2 : PlayableCharacter
         if (Input.GetKeyDown(KeyCode.E) && canUseSkill2)
         {
             skillPressed2 = true;
+            GameManager.instance.Player2SkillUsed(skillPressed2);
         }
         else if (Input.GetKeyDown(KeyCode.E) && !canUseSkill2)
         {
@@ -69,9 +112,9 @@ public class Player2 : PlayableCharacter
         else
         {
             skillPressed2 = false;
+            GameManager.instance.Player2SkillUsed(skillPressed2);
         }
     }
-
     private IEnumerator WaitToMove()
     {
         canMove = false;
@@ -84,7 +127,11 @@ public class Player2 : PlayableCharacter
     private IEnumerator AbilityCooldown()
     {
         canUseSkill2 = false;
-        yield return new WaitForSeconds(20);
+        skill2Used = true;
+        GameManager.instance.Player2SkillUsed(skill2Used);
+        yield return new WaitForSeconds(15);
+        skill2Used = false;
+        GameManager.instance.Player2SkillUsed(skill2Used);
         canUseSkill2 = true;
     }
     private IEnumerator DropBearTimer()
@@ -104,7 +151,7 @@ public class Player2 : PlayableCharacter
     }
     private IEnumerator DestroyAllBearsCoroutine()
     {
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(14);
         DestroyAllBears();
     }
 
@@ -130,5 +177,6 @@ public class Player2 : PlayableCharacter
         Crawling();
         DropBear();
         UseSkill2();
+        DetectedSprite();
     }
 }

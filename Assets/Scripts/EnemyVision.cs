@@ -3,12 +3,16 @@ using System.Collections;
 
 public class EnemyVision : EnemyCharacter
 {
+    public delegate void SetDetected();
+    public static event SetDetected OnSetDetected;
+    public delegate void LeaveDetection();
+    public static event LeaveDetection OnLeaveDetected;
     public float visionRange = 10f;
     public float visionAngle = 60f;
     public LayerMask targetLayer;
     public LayerMask obstacleLayer;
     public float detectionTimeThreshold = 2f;
-    public float visionDisableDuration = 10f;
+    public float visionDisableDuration = 8f;
     public float colorTransitionDuration = 1f; 
     private Color originalEmissionColor;
     private bool playerDetected = false;
@@ -24,10 +28,14 @@ public class EnemyVision : EnemyCharacter
     [SerializeField] private Renderer objectToChange;
     private Color originalEmissiveColor;
     [SerializeField] private SpriteRenderer stunSpriteRenderer;
+    [SerializeField] private AudioSource m_lookerAudioStun;
+    public AudioClip beingStunned;
+    public bool stunned;
 
     void Start()
     {
         originalEmissionColor = Color.yellow;
+        stunned = false;
         players = new GameObject[2];
         players[0] = GameObject.FindGameObjectWithTag("P1");
         players[1] = GameObject.FindGameObjectWithTag("P2");
@@ -89,7 +97,12 @@ public class EnemyVision : EnemyCharacter
                 if (!playerDetected)
                 {
                     playerDetected = true;
+                    
                     ChangeEmissionColor(Color.red);
+                    if(!stunned)
+                    {
+                        OnSetDetected();
+                    }  
 
                     // Perform action!
                 }
@@ -100,6 +113,10 @@ public class EnemyVision : EnemyCharacter
                     if (detectionTime >= detectionTimeThreshold)
                     {
                         GameManager.instance.CheckDetected(true);
+                        if (!stunned)
+                        {
+                            OnSetDetected();
+                        }
                     }
                 }
                 return;
@@ -109,10 +126,16 @@ public class EnemyVision : EnemyCharacter
         if (playerDetected && !isHit)
         {
             playerDetected = false;
+            OnLeaveDetected();
             StartColorTransition(originalEmissionColor);
             detectionTime = 0f;
         }
     }
+    //private void CheckPlayerDetected(bool p_checkDetected)
+    //{
+    //    playerDetected = p_checkDetected;
+    //    GameManager.instance.CheckDetectedP1(p_checkDetected);
+    //}
     private void ChangeEmissionColor(Color color)
     {
         if (emissiveMaterial != null)
@@ -148,6 +171,7 @@ public class EnemyVision : EnemyCharacter
         if (visionDisableTimer <= 0f && isHit)
         {
             visionDisableTimer = visionDisableDuration;
+            stunned = true;
 
             if (stunSpriteRenderer != null)
             {
@@ -157,6 +181,20 @@ public class EnemyVision : EnemyCharacter
         else
         {
             isHit = false;
+            stunned = false;
+        }
+    }
+    public IEnumerator PlayStun()
+    {
+        yield return new WaitForSeconds(0.3f);
+        m_lookerAudioStun.PlayOneShot(beingStunned, 1f);
+    }
+    public void PlayStunSound()
+    {
+        if (stunned == true)
+        {
+            StartCoroutine(PlayStun());
+            
         }
     }
     private void OnDrawGizmosSelected()
@@ -193,9 +231,11 @@ public class EnemyVision : EnemyCharacter
 
     private void Update()
     {
+        PlayStunSound();
         PlayerInVision();
         VisionReduced();
         UpdateColorTransition();
+        //CheckPlayerDetected(playerDetected);
         if (visionDisableTimer <= 0f && stunSpriteRenderer != null && stunSpriteRenderer.enabled)
         {
             stunSpriteRenderer.enabled = false;
