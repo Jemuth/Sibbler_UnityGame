@@ -1057,7 +1057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 102956371}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.51, y: 0, z: 11.47}
+  m_LocalPosition: {x: 5.51, y: 0, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1656,7 +1656,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241183913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.52, y: 0, z: 13.87}
+  m_LocalPosition: {x: 5.52, y: 0, z: 13.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3269,7 +3269,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552029326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.26, y: 0, z: 11.51}
+  m_LocalPosition: {x: 4.26, y: 0, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3840,7 +3840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637192004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2, y: 0, z: 14.07}
+  m_LocalPosition: {x: 3.2, y: 0, z: 13.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4912,8 +4912,13 @@ PrefabInstance:
       objectReference: {fileID: 745376914}
     - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
+      propertyPath: m_enemyType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
+        type: 3}
       propertyPath: monsterTurningSpeed
-      value: 260
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
@@ -4923,7 +4928,7 @@ PrefabInstance:
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
       propertyPath: visionAngle
-      value: 64.26
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
@@ -6349,7 +6354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272148100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.26, y: 0, z: 14.21}
+  m_LocalPosition: {x: 4.26, y: 0, z: 13.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7483,13 +7488,18 @@ PrefabInstance:
       objectReference: {fileID: 617052093}
     - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
+      propertyPath: m_enemyType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
+        type: 3}
       propertyPath: monsterSpeed
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
       propertyPath: monsterTurningSpeed
-      value: 260
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
@@ -7499,7 +7509,7 @@ PrefabInstance:
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
       propertyPath: visionAngle
-      value: 65.1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
@@ -7906,7 +7916,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639126116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2, y: 0, z: 11.49}
+  m_LocalPosition: {x: 3.2, y: 0, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10375,18 +10385,23 @@ PrefabInstance:
       objectReference: {fileID: 521892550}
     - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
+      propertyPath: m_enemyType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
+        type: 3}
       propertyPath: monsterSpeed
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916153, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
       propertyPath: monsterTurningSpeed
-      value: 260
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
       propertyPath: visionAngle
-      value: 61.3
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 605331935913916154, guid: 344e292b4e1043a40b56f663493a43fa,
         type: 3}
