@@ -23,19 +23,21 @@ public class EnemyVision : EnemyCharacter
     private Color targetColor; 
     private Color currentColor; 
     public int enemyID;
-    private bool isHit;
     [SerializeField] private Material emissiveMaterial;
     [SerializeField] private Renderer objectToChange;
     private Color originalEmissiveColor;
     [SerializeField] private SpriteRenderer stunSpriteRenderer;
     [SerializeField] private AudioSource m_lookerAudioStun;
+    private bool canBeHitCheck;
+    public bool canBeHit;
     public AudioClip beingStunned;
-    public bool stunned;
+    public bool isStunned;
+    [SerializeField] private EnemyCharacterData m_enemyData;
 
     void Start()
     {
         originalEmissionColor = Color.yellow;
-        stunned = false;
+        isStunned = false;
         players = new GameObject[2];
         players[0] = GameObject.FindGameObjectWithTag("P1");
         players[1] = GameObject.FindGameObjectWithTag("P2");
@@ -43,6 +45,7 @@ public class EnemyVision : EnemyCharacter
         emissiveMaterial = objectToChange != null ? objectToChange.GetComponentInChildren<Renderer>().material : null;
         originalEmissiveColor = emissiveMaterial != null ? emissiveMaterial.GetColor("_EmissionColor") : Color.yellow;
         stunSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        canBeHitCheck = m_enemyData.isHittable;
         if (stunSpriteRenderer != null)
         {
             stunSpriteRenderer.enabled = false;
@@ -99,7 +102,7 @@ public class EnemyVision : EnemyCharacter
                     playerDetected = true;
                     
                     ChangeEmissionColor(Color.red);
-                    if(!stunned)
+                    if(!isStunned)
                     {
                         OnSetDetected();
                     }  
@@ -113,7 +116,7 @@ public class EnemyVision : EnemyCharacter
                     if (detectionTime >= detectionTimeThreshold)
                     {
                         GameManager.instance.CheckDetected(true);
-                        if (!stunned)
+                        if (!isStunned)
                         {
                             OnSetDetected();
                         }
@@ -123,7 +126,7 @@ public class EnemyVision : EnemyCharacter
             }
         }
 
-        if (playerDetected && !isHit)
+        if (playerDetected && !isStunned)
         {
             playerDetected = false;
             OnLeaveDetected();
@@ -160,18 +163,30 @@ public class EnemyVision : EnemyCharacter
             ChangeEmissionColor(newEmissionColor);
         }
     }
-
-    public void EnemyHitChecker(bool enemyHit)
+    private void ConditionChecker()
     {
-        isHit = enemyHit;
+        if (canBeHitCheck)
+        {
+            canBeHit = true;
+        }
+        else
+        {
+            canBeHit = false;
+        }
+    }
+    public void StunEnemy()
+    {
+        if (!isStunned && canBeHit)
+        {
+            isStunned = true;
+        }
     }
 
     public void VisionReduced()
     {
-        if (visionDisableTimer <= 0f && isHit)
+        if (visionDisableTimer <= 0f && isStunned)
         {
             visionDisableTimer = visionDisableDuration;
-            stunned = true;
 
             if (stunSpriteRenderer != null)
             {
@@ -180,8 +195,7 @@ public class EnemyVision : EnemyCharacter
         }
         else
         {
-            isHit = false;
-            stunned = false;
+            isStunned = false;
         }
     }
     public IEnumerator PlayStun()
@@ -191,7 +205,7 @@ public class EnemyVision : EnemyCharacter
     }
     public void PlayStunSound()
     {
-        if (stunned == true)
+        if (isStunned == true)
         {
             StartCoroutine(PlayStun());
             
@@ -235,6 +249,7 @@ public class EnemyVision : EnemyCharacter
         PlayerInVision();
         VisionReduced();
         UpdateColorTransition();
+        ConditionChecker();
         //CheckPlayerDetected(playerDetected);
         if (visionDisableTimer <= 0f && stunSpriteRenderer != null && stunSpriteRenderer.enabled)
         {

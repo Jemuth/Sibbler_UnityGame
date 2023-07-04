@@ -8,12 +8,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CharacterSwap m_player;
     [SerializeField] private CameraSwap m_camera;
     [SerializeField] private StaminaManager m_runPressed1, m_runPressed2;
-    [SerializeField] private Player1 m_checkHit;
     [SerializeField] private UIManager m_uiManager;
     [SerializeField] private KeyCollection m_key;
     [SerializeField] private UIManager m_checkKeys;
     [SerializeField] private UIManager m_checkPlayers;
-    public EnemyVision[] enemyCharacterScripts;
     [SerializeField] private SkillCooldownP1 m_skillUsed;
     [SerializeField] private SkillCooldownP2 m_skillUsed2;
     //[SerializeField] private Player1 m_checkDetectedP1;
@@ -42,10 +40,6 @@ public class GameManager : MonoBehaviour
         m_runPressed1.RunPressed(p_runPressed);
         m_runPressed2.RunPressed(p_runPressed);
     }
-    public void CheckEnemyHitable(bool m_checkEnemyHit)
-    {
-        m_checkHit.CheckHitable(m_checkEnemyHit);
-    }
     public void CheckDetected(bool m_checkDetected)
     {
         m_uiManager.CheckRestart(m_checkDetected);
@@ -61,16 +55,6 @@ public class GameManager : MonoBehaviour
     public void CheckPlayersExit(bool m_playersOnExit)
     {
         m_checkPlayers.CheckPlayersOnExit(m_playersOnExit);
-    }
-    public void PlayerHitEnemy(int enemyID)
-    {
-        foreach (EnemyVision enemy in enemyCharacterScripts)
-        {
-            if (enemy.enemyID == enemyID)
-            {
-                enemy.EnemyHitChecker(true);
-            }
-        }
     }
     public void Player1SkillUsed(bool skillUsed)
     {

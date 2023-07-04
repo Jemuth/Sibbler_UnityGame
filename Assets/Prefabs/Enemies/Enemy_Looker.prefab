@@ -344,7 +344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: 
   m_id: 1
-  m_enemyData: {fileID: 11400000, guid: 0c1b48a324d1eb941879c4c7e40f3304, type: 2}
 --- !u!114 &6530856199994696253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,7 +358,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: 
   m_id: 
-  m_enemyData: {fileID: 0}
   visionRange: 7
   visionAngle: 50.39
   targetLayer:
@@ -376,8 +374,10 @@ MonoBehaviour:
   objectToChange: {fileID: 5576536872600898432}
   stunSpriteRenderer: {fileID: 6530856200566433177}
   m_lookerAudioStun: {fileID: -5520786778791833378}
+  canBeHit: 0
   beingStunned: {fileID: 8300000, guid: 2e89df76f97ab6e4d9f5a906980d0462, type: 3}
-  stunned: 0
+  isStunned: 0
+  m_enemyData: {fileID: 11400000, guid: 0c1b48a324d1eb941879c4c7e40f3304, type: 2}
 --- !u!82 &-5520786778791833378
 AudioSource:
   m_ObjectHideFlags: 0

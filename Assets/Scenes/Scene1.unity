@@ -863,7 +863,6 @@ MonoBehaviour:
   m_camera: {fileID: 987413575}
   m_runPressed1: {fileID: 334825508}
   m_runPressed2: {fileID: 3376280083404293468}
-  m_checkHit: {fileID: 6041902711312699534}
   m_uiManager: {fileID: 976520680}
   m_key: {fileID: 462773651}
   m_checkKeys: {fileID: 976520680}
@@ -7459,18 +7458,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e025b9bd829a17e468db57c2911b6ecc, type: 3}
---- !u!114 &6041902711312699534 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5127414464311330102, guid: 0af84852a9fd14547abb46a6f8390147,
-    type: 3}
-  m_PrefabInstance: {fileID: 1509016810034910648}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d97b520fff5cf64a8e988d5c19f3234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6148342518402737466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7790,6 +7777,12 @@ PrefabInstance:
       propertyPath: enemyID
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6530856199994696253, guid: e37958880e00b574f9581a7be1d4d135,
+        type: 3}
+      propertyPath: m_enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c1b48a324d1eb941879c4c7e40f3304,
+        type: 2}
     - target: {fileID: 6530856199994696253, guid: e37958880e00b574f9581a7be1d4d135,
         type: 3}
       propertyPath: visionAngle

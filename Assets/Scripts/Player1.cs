@@ -17,8 +17,6 @@ public class Player1 : PlayableCharacter
     // For skills animation
     private bool skillPressed;
     private bool canUseSkill;
-    private bool isHitable;
-    private bool isAtDistance;
     public bool batUsed;
     public int currentEnemyID;
     public bool skill1Used;
@@ -99,52 +97,30 @@ public class Player1 : PlayableCharacter
         skill1Used = false;
         GameManager.instance.Player1SkillUsed(skill1Used);
     }
-    
+
     //Specific skills
     //P1 Skills
-    private void OnTriggerEnter(Collider character)
+    private void OnTriggerStay(Collider character)
     {
-        EnemyVision enemy = character.gameObject.GetComponent<EnemyVision>();
-        if (enemy != null)
+        EnemyVision enemyVision = character.gameObject.GetComponent<EnemyVision>();
+        if (enemyVision != null && skillPressed)
         {
-            isAtDistance = true;
-            currentEnemyID = enemy.enemyID; // Store the ID of the colliding enemy
+                enemyVision.StunEnemy();
         }
     }
-    private void OnTriggerExit(Collider character)
-    {
-        EnemyCharacter enemy = character.gameObject.GetComponent<EnemyVision>();
-        if (enemy != null)
-        {
-            isAtDistance = false;
-            currentEnemyID = -1; // Reset the current enemy ID when no longer colliding
-        }
-    }
-    public void CheckHitable(bool m_canUseBat)
-    {
-        isHitable = m_canUseBat;
-    }
-
+    
     public void UseBat()
     {
-        if (m_checkBatUser.isBatUser && isHitable && isAtDistance && skillPressed)
+        if (m_checkBatUser.isBatUser && skillPressed)
         {
             m_p1Audio.PlayOneShot(batSwing, 1F);
             m_batAnimation.SetBool("isUsingSkill", true);
             StartCoroutine(AbilityCooldown());
             StartCoroutine(WaitToMove());
-            GameManager.instance.PlayerHitEnemy(currentEnemyID);
-            
-        }
-        else if (m_checkBatUser.isBatUser && isHitable && !isAtDistance && skillPressed)
-        {
-            m_batAnimation.SetBool("isUsingSkill", false);
-            GameManager.instance.PlayerHitEnemy(-1); // Reset the enemy ID when not at distance
         }
         else
         {
             m_batAnimation.SetBool("isUsingSkill", false);
-            GameManager.instance.PlayerHitEnemy(-1); // Reset the enemy ID when not hitting
         }
     }
     protected override void OnUpdating()
