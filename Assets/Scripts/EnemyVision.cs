@@ -13,17 +13,20 @@ public class EnemyVision : EnemyCharacter
     public LayerMask obstacleLayer;
     public float detectionTimeThreshold = 2f;
     public float visionDisableDuration = 8f;
-    public float colorTransitionDuration = 1f; 
+    public float colorTransitionDuration = 1f;
+    public float transparencyTransitionDuration = 1f;
     private Color originalEmissionColor;
     private bool playerDetected = false;
     private float detectionTime = 0f;
     private float visionDisableTimer = 0f;
-    private float colorTransitionTimer = 0f; 
+    private float colorTransitionTimer = 0f;
+    private float transparencyTransitionTimer = 0f;
     private GameObject[] players;
-    private Color targetColor; 
+    private Color targetColor;
+    private Color targetTransparency;
     private Color currentColor; 
     public int enemyID;
-    [SerializeField] private Material emissiveMaterial;
+    [SerializeField] private Material emissiveMaterial; // For minimap
     [SerializeField] private Renderer objectToChange;
     private Color originalEmissiveColor;
     [SerializeField] private SpriteRenderer stunSpriteRenderer;
@@ -33,16 +36,21 @@ public class EnemyVision : EnemyCharacter
     public AudioClip beingStunned;
     public bool isStunned;
     [SerializeField] private EnemyCharacterData m_enemyData;
+    [SerializeField] private Material detectionMaterial;
+    [SerializeField] private Renderer transparencyChange;
+    private Color originalTransparency;
 
     void Start()
     {
         originalEmissionColor = Color.yellow;
+        originalTransparency = new Color(1f, 0.5f, 0f, 0f);
         isStunned = false;
         players = new GameObject[2];
         players[0] = GameObject.FindGameObjectWithTag("P1");
         players[1] = GameObject.FindGameObjectWithTag("P2");
-        // currentColor = Color.white;
+        detectionMaterial = transparencyChange != null ? transparencyChange.GetComponentInChildren<Renderer>().material : null;
         emissiveMaterial = objectToChange != null ? objectToChange.GetComponentInChildren<Renderer>().material : null;
+        originalTransparency = detectionMaterial != null ? detectionMaterial.GetColor("_BaseColor") : originalTransparency;
         originalEmissiveColor = emissiveMaterial != null ? emissiveMaterial.GetColor("_EmissionColor") : Color.yellow;
         stunSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         canBeHitCheck = m_enemyData.isHittable;
@@ -102,7 +110,8 @@ public class EnemyVision : EnemyCharacter
                     playerDetected = true;
                     
                     ChangeEmissionColor(Color.red);
-                    if(!isStunned)
+                    ChangeTransparencyColor(new Color(1f, 0f, 0f, 0.8f));
+                    if (!isStunned)
                     {
                         OnSetDetected();
                     }  
@@ -131,6 +140,7 @@ public class EnemyVision : EnemyCharacter
             playerDetected = false;
             OnLeaveDetected();
             StartColorTransition(originalEmissionColor);
+            StartTransparencyTransition(originalTransparency);
             detectionTime = 0f;
         }
     }
@@ -146,11 +156,22 @@ public class EnemyVision : EnemyCharacter
             emissiveMaterial.SetColor("_EmissionColor", color);
         }
     }
+    private void ChangeTransparencyColor(Color color)
+    {
+        if (detectionMaterial != null)
+
+            detectionMaterial.SetColor("_BaseColor", color);
+    }
 
     private void StartColorTransition(Color targetColor)
     {
         this.targetColor = targetColor;
         colorTransitionTimer = colorTransitionDuration;
+    }
+    private void StartTransparencyTransition(Color targetTransparency)
+    {
+        this.targetTransparency = targetTransparency;
+        transparencyTransitionTimer = transparencyTransitionDuration;
     }
 
     private void UpdateColorTransition()
@@ -161,6 +182,16 @@ public class EnemyVision : EnemyCharacter
             float t = 1f - (colorTransitionTimer / colorTransitionDuration);
             Color newEmissionColor = Color.Lerp(originalEmissiveColor, targetColor, t);
             ChangeEmissionColor(newEmissionColor);
+        }
+    }
+    private void UpdateTransparencyTransition()
+    {
+        if (transparencyTransitionTimer > 0f)
+        {
+            transparencyTransitionTimer -= Time.deltaTime;
+            float t = 1f - (transparencyTransitionTimer / transparencyTransitionDuration);
+            Color newTransparencyColor = Color.Lerp(originalTransparency, targetTransparency, t);
+            ChangeTransparencyColor(newTransparencyColor);
         }
     }
     private void ConditionChecker()
@@ -249,6 +280,7 @@ public class EnemyVision : EnemyCharacter
         PlayerInVision();
         VisionReduced();
         UpdateColorTransition();
+        UpdateTransparencyTransition();
         ConditionChecker();
         //CheckPlayerDetected(playerDetected);
         if (visionDisableTimer <= 0f && stunSpriteRenderer != null && stunSpriteRenderer.enabled)

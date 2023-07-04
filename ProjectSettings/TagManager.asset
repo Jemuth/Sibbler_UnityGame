@@ -13,6 +13,7 @@ TagManager:
   - P2
   - Tunnel
   - Bear
+  - DetectionCones
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Player
   - VisionCones
   - PointLight
-  - 
+  - DetectionCones
   - 
   - 
   - 
