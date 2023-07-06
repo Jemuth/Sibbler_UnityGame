@@ -108,9 +108,16 @@ public class EnemyVision : EnemyCharacter
                 if (!playerDetected)
                 {
                     playerDetected = true;
-                    
                     ChangeEmissionColor(Color.red);
                     ChangeTransparencyColor(new Color(1f, 0f, 0f, 0.8f));
+                    if(player.CompareTag("P1"))
+                    {
+                        GameManager.instance.DetectionBar1(true);
+                    }
+                    if (player.CompareTag("P2"))
+                    {
+                        GameManager.instance.DetectionBar2(true);
+                    }
                     if (!isStunned)
                     {
                         OnSetDetected();
@@ -138,6 +145,8 @@ public class EnemyVision : EnemyCharacter
         if (playerDetected && !isStunned)
         {
             playerDetected = false;
+            GameManager.instance.DetectionBar1(false);
+            GameManager.instance.DetectionBar2(false);
             OnLeaveDetected();
             StartColorTransition(originalEmissionColor);
             StartTransparencyTransition(originalTransparency);

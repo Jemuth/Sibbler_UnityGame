@@ -6,4 +6,5 @@ using UnityEngine;
 public class EnemyCharacterData : ScriptableObject
 {
     public bool isHittable;
+    public float perceptionTime;
 }

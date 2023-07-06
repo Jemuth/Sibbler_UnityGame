@@ -103,10 +103,16 @@ public class Player1 : PlayableCharacter
     private void OnTriggerStay(Collider character)
     {
         EnemyVision enemyVision = character.gameObject.GetComponent<EnemyVision>();
+        EnemyCharacter enemyCharacter = character.gameObject.GetComponent<EnemyCharacter>();
         if (enemyVision != null && skillPressed)
         {
                 enemyVision.StunEnemy();
         }
+        if (enemyCharacter != null && skillPressed)
+        {
+            enemyCharacter.StunEnemyCharacter();
+        }
+
     }
     
     public void UseBat()

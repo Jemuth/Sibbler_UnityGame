@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager m_checkPlayers;
     [SerializeField] private SkillCooldownP1 m_skillUsed;
     [SerializeField] private SkillCooldownP2 m_skillUsed2;
+    [SerializeField] private DetectionManager m_detected1;
+    [SerializeField] private DetectionManager m_detected2;
     //[SerializeField] private Player1 m_checkDetectedP1;
     //[SerializeField] private Player2 m_checkDetectedP2;
     private void Awake()
@@ -63,6 +65,22 @@ public class GameManager : MonoBehaviour
     public void Player2SkillUsed(bool skillUsed)
     {
         m_skillUsed2.UISkillChecker2(skillUsed);
+    }
+    public void DetectionBar1(bool p_detected)
+    {
+        m_detected1.DetectionBarChecker(p_detected);
+    }
+    public void DetectionBar2(bool p_detected)
+    {
+        m_detected2.DetectionBarChecker(p_detected);
+    }
+    public void EnemyContact1(bool p_contact)
+    {
+        m_detected1.ContactChecker(p_contact);
+    }
+    public void EnemyContact2(bool p_contact)
+    {
+        m_detected2.ContactChecker(p_contact);
     }
     //public void CheckDetectedP1(bool p_checkDetected)
     //{
