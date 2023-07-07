@@ -7,11 +7,11 @@
 
 ##**Project SE**##
 
-![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/GDDCoverArt.jpg)
+![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler1.jpg)
 
 *Concepto inicial*
 Juego de sigilo estrategico - puzzle objetivo es recolectar llaves y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos hermanas,
-las cuales poseen distintos atributos y una habilidad particular que deberan ocupar.
+las cuales poseen distintos atributos y una habilidad particular que deberan ocupar. El juego posee un estilo visual estilo PSX - baja resolucion.
 
 *Resumen de build inicial*
 
@@ -22,6 +22,8 @@ El mayor desafio fue implementar mecanicas que involucraran a distintas entidade
 
 *Controles*
 
+![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler2.jpg)
+
 - Input directinal : Movimiento AWSD + Mouse Look
 - Left shift : Run(Vigilar stamina!)
 - C: Cambio de jugador: El jugador inactivo aparecera en la camara inferior derecha, lo cual ayudara a evitar peligro y coordinar acciones. Sirve a modo de minimap para evaluar la situacion.
@@ -31,19 +33,28 @@ El mayor desafio fue implementar mecanicas que involucraran a distintas entidade
 - Hermana menor(P2) deja un oso de peluche que distrae a los enemigos de tipo PATRULLEROS(ojos amarillos). Todo patrullero que entre en contacto dejara de moverse por el tiempo de su duracion. Cooldown de alta duracion
 - Habilidad pasiva: Puede escabullirse por tuneles y encontrar objetos claves o tomar atajos. Mas dificil de ver, pero corre mas lento y se cansa mas rapido.
 
-*Bugs o modificaciones a realizar identificadas**
+*Bugs identificados**
 
-- UI solamente funcional(incompleta a nivel de acabo)
-- El sistema de indicacion de FoV se realizo pensando en la simulacion de spotlight que usaba el hardware de la PSX(mesh con transparencia y emision).Sin embargo esto satura la pantalla con demasiado informacion visual.En futuro
-se plantea utilizar un Sprite con un audio cue para indicar deteccion.
-- El sistema de deteccion de golpe de la habilidad de bat puede ser irresponsivo en raras ocasiones, dependiendo de la ubicacion de los colliders.
+El sistema de deteccion de golpe de la habilidad de bat puede ser irresponsivo en raras ocasiones, dependiendo de la ubicacion de los colliders.
+
 
 *Otros detalles y agradecimientos*
 
-Todos los modelos de personajes, escenario y otros assets, asi como las texturas texturas son hechos o modificados por mi. Animaciones de Mixamo. Shader URP PSX por Kodrin.Musica de escena 1 y escena 2 por Lisergishnu.
-Juego sin fin comercial.
+Todos los modelos de personajes, escenarios y asi como las texturas texturas son hechos o modificados por mi.Meshes de items y arboles son de sus respectivos autores. Animaciones de Mixamo. Shader URP PSX por Kodrin.Musica de escena 1 y escena 2 por Lisergishnu.
 
-#### Bitacora de desarrollo
+**Juego sin fin comercial**
+
+*Capturas de gameplay*
+
+![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler3.jpg)
+
+![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler4.jpg)
+
+![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler5.jpg)
+
+**Link a build**
+
+https://drive.google.com/file/d/1mj0FWeTwer-bl1V6LyiAjZ27bhZcAlZJ/view?usp=drive_link
 
 **Resumen primera entrega**
 
@@ -90,49 +101,5 @@ Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina).
 2. Creacion de script de movimiento basico.
 3. Creacion de script para luz con deteccion de movimiento
 
-**Desarrollo entrega final**
 
-**07/06/2023**
-
-1. Creacion de nuevo repositorio para replanteamiento del juego acorde a las exigencias de la entrega final
-2. Se incorpora arte conceptual / Game cover art
-
-**08/06/2023**
-
-1. Creacion de mesh de testeo estilo low poly(direccion de arte del juego)
-2. Actualizacion gitignore
-
-**09/06/2023**
-
-1. Creacion mesh P1 con sus respectivos UV
-2. Implementacion de texturas
-
-**10/06/2023**
-
-1.Personaje P1 completado con sus respectivas texturas
-
-**12/06/2023**
-
-1. Modelo y texturas completas de personaje P1 y P2 
-2. Creacion de script de movimiento y barra de stamina con atributos(velocidad, stamina maxima) otorgados con scriptable objects
-3. Incorporacion de elemento UI de barra de stamina
-
-**13/06/2023
-
-1. Implementacion de scripts de movimiento y respectivas animaciones(Idle-Walk)
-2. Implementacion de animacion de correr y barra de stamina asociada
-
-**14/06/2023
-
-1. Implementacion completa de script de movimiento basico
-2. Animaciones relativas a movimiento con ciclo actualizado de animaciones(idle,walk,run,tired)
-3. Aplicacion de Lerp y otras funciones y clases para mejorar fluidez de movimiento
-
-**15/06/2023
-
-1. Implementacion de cambio de personaje completada(se arreglan fallas de transicion)
-2. Implementacion de sistema de camera follow para ambos personajes
-3. Se añade sistema de camaras Cinemachine con su respectivo script para cambio de camara segun personaje seleccionado
-
-** BITACORA A ACTUALIZAR POSTERIOR A BUILD INICIAL
 
