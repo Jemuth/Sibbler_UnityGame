@@ -5,7 +5,7 @@
 
 **Descripcion general del proyecto**
 
-##**Project SE**##
+**SIBLER A.K.A. Project SE**
 
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler1.jpg)
 
