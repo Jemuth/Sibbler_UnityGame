@@ -11,7 +11,7 @@ public class EnemyVision : EnemyCharacter
     public float visionAngle = 60f;
     public LayerMask targetLayer;
     public LayerMask obstacleLayer;
-    public float detectionTimeThreshold = 2f;
+    public float detectionTimeThreshold = 2.3f;
     public float visionDisableDuration = 8f;
     public float colorTransitionDuration = 1f;
     public float transparencyTransitionDuration = 1f;

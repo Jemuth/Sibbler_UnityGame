@@ -12,7 +12,7 @@ public class DetectionManager : MonoBehaviour
     private Coroutine regen;
     private bool detected;
     private bool enemyContact;
-    private float perceptionThreshold = 2f;
+    private float perceptionThreshold = 1.5f;
     private float perceptionTime = 0f;
 
 

@@ -8,8 +8,7 @@ public class EndingMenuManager : MonoBehaviour
     
     public void GoBack()
     {
-        SceneManager.LoadScene("MainMenu");
-        Debug.Log("ASD");
+        SceneManager.LoadScene("NowLoading4");
     }
 
 

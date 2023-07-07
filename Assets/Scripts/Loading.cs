@@ -11,6 +11,6 @@ public class Loading : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(nextSceneName);
     }
 }

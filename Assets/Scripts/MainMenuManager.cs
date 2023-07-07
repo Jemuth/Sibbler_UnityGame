@@ -29,7 +29,7 @@ public class MainMenuManager : MonoBehaviour
         }
         fader.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Scene1");
+        SceneManager.LoadScene("NowLoading2");
     }
     public void LoadGameplayScene()
     {

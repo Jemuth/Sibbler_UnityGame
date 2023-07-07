@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
     }
     public void Ending()
     {
-        SceneManager.LoadScene("Ending");
+        SceneManager.LoadScene("NowLoading3");
     }
     private void Update()
     {

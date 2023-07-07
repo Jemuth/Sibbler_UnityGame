@@ -8,6 +8,14 @@ public class EnemyCharacter : GameCharacter
     private bool isPlayer2Inside;
     private bool wasPlayer1Inside;
     private bool wasPlayer2Inside;
+    [SerializeField] private SpriteRenderer closeSpriteRenderer;
+    [SerializeField] private AudioSource m_closeSource;
+    public AudioClip closeSound;
+
+    private void Start()
+    {
+        closeSpriteRenderer.enabled = false;
+    }
     public void StunEnemyCharacter()
     {
         StartCoroutine(EnemyStun());
@@ -34,10 +42,19 @@ public class EnemyCharacter : GameCharacter
         if (other.CompareTag("P1"))
         {
             isPlayer1Inside = true;
+            closeSpriteRenderer.enabled = true;
+            if (!m_closeSource.isPlaying) { 
+                m_closeSource.PlayOneShot(closeSound, 0.4F);
+            }
         }
         if (other.CompareTag("P2"))
         {
             isPlayer2Inside = true;
+            closeSpriteRenderer.enabled = true;
+            if (!m_closeSource.isPlaying)
+            {
+                m_closeSource.PlayOneShot(closeSound, 0.4F);
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -45,10 +62,12 @@ public class EnemyCharacter : GameCharacter
         if (other.CompareTag("P1"))
         {
             isPlayer1Inside = false;
+            closeSpriteRenderer.enabled = false;
         }
         if (other.CompareTag("P2"))
         {
             isPlayer2Inside = false;
+            closeSpriteRenderer.enabled = false;
         }
     }
     private void RaiseDetectionP1()
