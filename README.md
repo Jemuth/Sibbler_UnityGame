@@ -69,8 +69,9 @@ All character models, scenery and textures are made or modified by me. Meshes of
 **Juego sin fin comercial**
 **Non-commercial game**
 
-*Capturas de gameplay*
-*Gameplay captures*
+**Capturas de gameplay**
+
+**Gameplay captures**
 
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler3.jpg)
 
