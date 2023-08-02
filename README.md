@@ -66,12 +66,9 @@ Todos los modelos de personajes, escenarios y asi como las texturas texturas son
 
 All character models, scenery and textures are made or modified by me. Meshes of items and trees are from their respective authors. Animations by Mixamo. Shader URP PSX by Kodrin. Scene 1 and scene 2 music by Lisergishnu.
 
-**Juego sin fin comercial**
-**Non-commercial game**
+**Juego sin fin comercial / Non-commercial game**
 
-**Capturas de gameplay**
-
-**Gameplay captures**
+**Capturas de gameplay / Gameplay captures**
 
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler3.jpg)
 
@@ -79,8 +76,7 @@ All character models, scenery and textures are made or modified by me. Meshes of
 
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler5.jpg)
 
-**Link a build**
-**Link to build**
+**Link a build / Link to build**
 
 https://drive.google.com/file/d/1mj0FWeTwer-bl1V6LyiAjZ27bhZcAlZJ/view?usp=drive_link
 
