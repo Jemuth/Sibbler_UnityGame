@@ -1,6 +1,4 @@
-# ProjectSE_Unity game
-**SIBLER A.K.A. Project SE**
-
+# Sibler, a PSX-graphics style game
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler1.jpg)
 
 *Concepto inicial*
