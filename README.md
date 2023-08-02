@@ -1,24 +1,29 @@
-# ProjectSE_UnityCoderhouse
-## Proyecto para curso "Desarrollo de videojuegos en Unity" Coderhouse
-
-### Log de desarrollo - ProjectSE
-
-**Descripcion general del proyecto**
-
+# ProjectSE_Unity game
 **SIBLER A.K.A. Project SE**
 
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler1.jpg)
 
 *Concepto inicial*
-Juego de sigilo estrategico - puzzle objetivo es recolectar llaves y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos hermanas,
+Sibler es un juego de sigilo estrategico - puzzle objetivo es recolectar llaves y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos hermanas,
 las cuales poseen distintos atributos y una habilidad particular que deberan ocupar. El juego posee un estilo visual estilo PSX - baja resolucion.
+
+*Initial concept*
+Sibler is a strategic stealth-puzzle game, the objective is to collect keys and escape from the stage, with different types of enemies, which depending on the type will have different patrolling and chasing patterns. The player will control two sisters,
+which have different attributes and a particular ability that they must occupy. The game has a PSX style visual style - low resolution.
 
 *Resumen de build inicial*
 
 Juego de alta dificultad y coordinacion estilo sigilo-estrategia en el cual se debera recopilar llaves y encontrar la salida, evitando el campo de vision de los enemigos. El jugador controla a dos personajes intercambiables: dos hermanas que deben escapar de las criaturas
 sombrias. Cada una posee distintos skills y atributos que deberan usar estrategicamente para escapar. El juego posee una direccion de arte y estilo visual que intenta emular juegos de la era del PSX, utilizando shader, por ejemplo, con 
-vertex jittering y texturas de baja resolucion. El diseño de los escenarios se penso utilizando un sistema de grilla utilizando la escala de 1x1x1, y modelando escenario en Maya utilizando una cuadricula.
+vertex jittering y texturas de baja resolucion. El diseÃ±o de los escenarios se penso utilizando un sistema de grilla utilizando la escala de 1x1x1, y modelando escenario en Maya utilizando una cuadricula.
 El mayor desafio fue implementar mecanicas que involucraran a distintas entidades en la escena, al mismo tiempo que cada jugador maneja sus propias acciones, cooldowns o eventos.
+
+*Initial build summary*
+
+High difficulty and coordination stealth-strategy style game in which you must collect keys and find the exit, avoiding the enemies' field of vision. The player controls two interchangeable characters: two sisters who must escape from shadowy creatures.
+creatures. Each has different skills and attributes that must be used strategically to escape. The game has an art direction and visual style that tries to emulate games from the PSX era, using shader, for example, with 
+vertex jittering and low resolution textures. The scenery design was thought using a grid system using 1x1x1 scale, and modeling scenery in Maya using a grid.
+The biggest challenge was to implement mechanics that involved different entities in the scene, while each player handles his own actions, cooldowns or events.
 
 *Controles*
 
@@ -33,18 +38,39 @@ El mayor desafio fue implementar mecanicas que involucraran a distintas entidade
 - Hermana menor(P2) deja un oso de peluche que distrae a los enemigos de tipo PATRULLEROS(ojos amarillos). Todo patrullero que entre en contacto dejara de moverse por el tiempo de su duracion. Cooldown de alta duracion
 - Habilidad pasiva: Puede escabullirse por tuneles y encontrar objetos claves o tomar atajos. Mas dificil de ver, pero corre mas lento y se cansa mas rapido.
 
+*Controls*
+
+- Input directinal : AWSD Movement + Mouse Look
+- Left shift : Run(Watch stamina!)
+- C: Player shift: The inactive player will appear in the lower right camera, which will help to avoid danger and coordinate actions. It serves as a minimap to evaluate the situation.
+- E: Special Skill(Has cooldown: 
+- Big Sister(P1) hits VIGILANTES(red eyes) type enemies in the back with her bat.While they are disabled, it will show an icon. Has low cooldown duration.
+- Passive ability: He can run much faster and longer which helps him escape from enemy FoV in time. Can destroy objects that obstruct the passage (in implementation).
+- Little Sister(P2) leaves a teddy bear that distracts the patrol type enemies (yellow eyes). Any patroller that comes in contact will stop moving for the duration of its duration. High duration cooldown
+- Passive ability: Can sneak through tunnels and find key objects or take shortcuts. Harder to see, but runs slower and tires faster.
+
+
 *Bugs identificados**
 
 El sistema de deteccion de golpe de la habilidad de bat puede ser irresponsivo en raras ocasiones, dependiendo de la ubicacion de los colliders.
 
+*Known bugs*
+
+The hit detection system of the bat skill can be irresponsive on rare occasions, depending on the location of the colliders.
 
 *Otros detalles y agradecimientos*
 
 Todos los modelos de personajes, escenarios y asi como las texturas texturas son hechos o modificados por mi.Meshes de items y arboles son de sus respectivos autores. Animaciones de Mixamo. Shader URP PSX por Kodrin.Musica de escena 1 y escena 2 por Lisergishnu.
 
+*Other details and acknowledgements*
+
+All character models, scenery and textures are made or modified by me. Meshes of items and trees are from their respective authors. Animations by Mixamo. Shader URP PSX by Kodrin. Scene 1 and scene 2 music by Lisergishnu.
+
 **Juego sin fin comercial**
+**Non-commercial game**
 
 *Capturas de gameplay*
+*Gameplay captures*
 
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler3.jpg)
 
@@ -53,53 +79,10 @@ Todos los modelos de personajes, escenarios y asi como las texturas texturas son
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler5.jpg)
 
 **Link a build**
+**Link to build**
 
 https://drive.google.com/file/d/1mj0FWeTwer-bl1V6LyiAjZ27bhZcAlZJ/view?usp=drive_link
 
-**Resumen primera entrega**
-
-Link a repositorio de primera entrega: https://github.com/Jemuth/proyectounitycoderjjg
-
-![](https://github.com/Jemuth/proyectounitycoderjjg/blob/main/gifs/entrega1.gif)
-
-Se implemento acorde a los requisitos de entrega:
-
-- Inputs basicos de movimiento para el jugador, opcion de correr al presionar tecla y funcion de agacharse para futuras mecanicas.
-- Personajes con animaciones: Animaciones de jugador y enemigo.
-- Sistema de camaras: Jugador con camera de seguimiento en tercera persona.
-- Luces: Skybox, luz direccional y luces de ambientacion.
-- Objetos con materiales: Escena y objetos de decoracion con sus respectivas texturas.
-- Prefabs: Jugador, enemigos y objetos en la escena.
-- Calculos vectoriales: Implementacion de sistema de patrullaje rudimentario para el enemigo.
-- 1 caso de switch: Switch para determinar el tipo de enemigo el cual afecta su velocidad.
-- 2 casos de temporizadores: Corrutina para determinar tiempo de patrullaje de enemigo. Sistema de stamina para jugador.
-- 3 tipo de colisiones: Colliders para jugador, enemigo y objetos en escena. Sistema de colision para luz de deteccion de movimiento.
-
-**Controles de jugador**
-
-Movimiento WASD + mouse look. Left Shift para correr(cooldown acorde a stamina). Left Ctrl para agacharse.
-
-**03/04/2023**
-
-1. Creacion de proyecto con sus respectivos directorios.
-2. Implementacion de git con el respectivo archivo git.ignore segun requerimientos.
-3. Integracion a GitHub para posible desarrollo conjunto.
-
-**04/04/2023**
-
-1. Configuracion de personaje protagonista(modelo y animaciones Mixamo).
-2. Creacion de script de movimiento basico.
-3. Implementacion de animation controller con animaciones correspondientes al movimiento.
-4. Configuracion de iluminacion de escena y Skybox de ambientacion
-5. Integracion de escena y elementos decorativos(prefabs), con sus respectivas texturas
-6. Implementacion de NPC, con sus respectivas animaciones
-7. Creacion de script de patrullaje para NPC, con su respectivo switch para configurar tipo de enemigo(velocidad) y corrutinas para temporizacion
-
-**05/04/2023**
-
-1. Implementacion de sistema rudimentaria de stamina con su respectivo temporizador.
-2. Creacion de script de movimiento basico.
-3. Creacion de script para luz con deteccion de movimiento
 
 
 
