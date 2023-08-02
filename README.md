@@ -2,10 +2,12 @@
 ![](https://raw.githubusercontent.com/Jemuth/ProjectSE_UnityCoderhouse/main/Images/Sibler1.jpg)
 
 **Concepto inicial**
+
 Sibler es un juego de sigilo estrategico - puzzle objetivo es recolectar llaves y escapar del escenario, con distintos tipos de enemigos los cuales segun el tipo tendran distintos patrones de patrullaje y persecucion. El jugador controlara a dos hermanas,
 las cuales poseen distintos atributos y una habilidad particular que deberan ocupar. El juego posee un estilo visual estilo PSX - baja resolucion.
 
 **Initial concept**
+
 Sibler is a strategic stealth-puzzle game, the objective is to collect keys and escape from the stage, with different types of enemies, which depending on the type will have different patrolling and chasing patterns. The player will control two sisters,
 which have different attributes and a particular ability that they must occupy. The game has a PSX style visual style - low resolution.
 
